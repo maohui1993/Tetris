@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Tetris</string>
+
+
+    <string name="exit">Exit</string>
+    <string name="shareScore">Share score</string>
+    <string name="score">Score:</string>
+    <string name="pause">\nPause\n</string>
+    <string name="resume">\nResume\n</string>
+    <string name="gameover">Game over</string>
+
+    <string name="first">"1st"</string>
+    <string name="second">"2nd"</string>
+    <string name="third">"3rd"</string>
+    <string name="nohscores">"No scores"</string>
+    <string name="preferences">"Preferences"</string>
+    <string name="preferencesSound">Sound</string>
+    <string name="preferencesSoundFX">FX sounds</string>
+    <string name="preferencesSoundFXEnabled">Sound efects enabled</string>
+    <string name="preferencesSoundFXDisabled">Sound efects disabled</string>
+    <string name="preferencesSoundMusic">Music</string>
+    <string name="preferencesSoundMusicEnabled">Music enabled</string>
+    <string name="preferencesSoundMusicDisabled">Music disabled</string>
+    <string name="preferencesGame">Game</string>
+    <string name="preferencesGameVibration">Vibration</string>
+    <string name="preferencesGameVibrationChecked">Vibrate</string>
+    <string name="preferencesGameVibrationUnchecked">Don\'t vibrate</string>
+    <string name="preferencesGameBackgrounds">Show board background</string>
+    <string name="preferencesGameBackgroundsChecked">Show</string>
+    <string name="preferencesGameBackgroundsUnchecked">Dont show</string>
+    <string name="preferencesScreen">Screen</string>
+    <string name="preferencesScreenKeepOn">Keep on</string>
+    <string name="preferencesScreenKeepOnChecked">Screen will not lock</string>
+    <string name="preferencesScreenKeepOnUnchecked">Screen will lock as usually</string>
+    <string name="shareScoreSelector">Share with#8230;</string>
+    <string name="shareScore1">I just scored </string>
+    <string name="shareScore2"> playing Tetris! \n\nCheck it out:\n\n[link]</string>
+</resources>

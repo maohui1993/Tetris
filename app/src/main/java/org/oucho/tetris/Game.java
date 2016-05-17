@@ -1,0 +1,619 @@
+package org.oucho.tetris;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+
+
+public class Game extends AppCompatActivity
+		implements OnClickListener {
+
+	private BoardView gameBoard;
+	private Box[][] box;
+	private Piece currentPiece;
+	private Piece nextPiece;
+	private Button btnPause;
+
+	private TextView textScore;
+	private ImageView imageCombo;
+	private ImageView nextPieceImg;
+
+	private ImageView button0, button1, button2;
+
+	private int score = 0;
+	private int combo = 1;
+
+	private boolean game;
+	private CountDownTimer timer;
+
+	@SuppressWarnings("ConstantConditions")
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+
+		//Load preferences
+		SharedPreferences settings = getSharedPreferences("settings", 0);
+		boolean prefMusic = settings.getBoolean("music", false);
+		boolean prefFX = settings.getBoolean("fx", true);
+
+		boolean prefBg = settings.getBoolean("backgrounds", true);
+		boolean prefScreen = settings.getBoolean("keepon", true);
+
+		//Assign layouts
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.game);
+
+
+		btnPause = (Button) findViewById(R.id.buttonPause);
+
+		this.findViewById(R.id.ButtonMoveR).setOnClickListener(this);
+		this.findViewById(R.id.ButtonMoveL).setOnClickListener(this);
+		this.findViewById(R.id.ButtonMoveD).setOnClickListener(this);
+		this.findViewById(R.id.buttonRotateR).setOnClickListener(this);
+		this.findViewById(R.id.ButtonRotateL).setOnClickListener(this);
+
+		this.findViewById(R.id.buttonPause).setOnClickListener(this);
+
+
+
+		button0 = (ImageView) findViewById(R.id.ButtonMoveD);
+		button1 = (ImageView) findViewById(R.id.ButtonMoveL);
+		button2 = (ImageView) findViewById(R.id.ButtonMoveR);
+
+
+		//Get measures for the board
+		Display display = getWindowManager().getDefaultDisplay();
+		int width = (int) (display.getWidth() * 0.7);
+		int height = (int) (display.getHeight() * 0.9);
+		gameBoard = (BoardView) findViewById(R.id.GameView);
+		int d = (int) (width * 0.85 / 10);
+
+		//Asign score and combo resources
+		textScore = (TextView) findViewById(R.id.TextViewScore);
+		imageCombo = (ImageView) findViewById(R.id.imageViewCombo);
+
+		//Initialize boxes and draw the wall
+		box = new Box[20][10];
+		int x = (int) (width * 0.05);
+		int y = (int) (height * 0.05);
+		gameBoard.createWall(x, y, d);
+		if(prefBg)
+			gameBoard.createBg(x, y, d);
+		for (int i = 0; i < 20; i++){
+			x = (int) (width * 0.05);
+			for (int j = 0; j < 10; j++){
+				box[i][j] = new Box(x + d * j, y + d * i, d);
+				gameBoard.initialize(i, j, x, y, d);
+				x = x + d;
+			}
+			y = y + d;
+		}
+
+
+		//Initialize pieces
+		currentPiece = new Piece();
+		nextPiece = new Piece();
+		nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
+
+		//Start the time bucle
+		game = true;
+
+		timer = new CountDownTimer(150000, 1000) {
+			public void onTick(long millisUntilFinished) {
+				gameAction();
+			}
+
+			public void onFinish() {
+				gameAction();
+				start();
+			}
+		}.start();
+
+
+
+		//Start the game
+		textScore.setText("0");
+		currentPiece.start();
+
+
+		setImgs();
+
+	}
+
+
+	private void setImgs() {
+		//Set image for next piece
+		//Has to be done here, or there is no next piece image at the beggining
+		switch(nextPiece.type){
+			case Values.PIECE_0:
+				nextPieceImg.setImageResource(R.drawable.piece0);
+				break;
+			case Values.PIECE_1:
+				nextPieceImg.setImageResource(R.drawable.piece1);
+				break;
+			case Values.PIECE_2:
+				nextPieceImg.setImageResource(R.drawable.piece2);
+				break;
+			case Values.PIECE_3:
+				nextPieceImg.setImageResource(R.drawable.piece3);
+				break;
+			case Values.PIECE_4:
+				nextPieceImg.setImageResource(R.drawable.piece4);
+				break;
+			case Values.PIECE_5:
+				nextPieceImg.setImageResource(R.drawable.piece5);
+				break;
+			case Values.PIECE_6:
+				nextPieceImg.setImageResource(R.drawable.piece6);
+				break;
+		}
+	}
+
+
+
+   /* **********************************************************************************************
+    * Gestion des clicks sur l'interface
+    * *********************************************************************************************/
+
+	@Override
+	public void onClick(View v) {
+
+
+		switch (v.getId()) {
+
+			case R.id.ButtonMoveR:
+				unDraw();
+				currentPiece.moveRight();
+				reDraw();
+
+				// long press
+				right();
+				break;
+
+			case R.id.ButtonMoveL:
+				unDraw();
+				currentPiece.moveLeft();
+				reDraw();
+
+				// long press
+				left();
+				break;
+
+			case R.id.ButtonMoveD:
+				unDraw();
+				currentPiece.moveDown();
+				reDraw();
+
+				// long press
+				down();
+
+				break;
+
+			case R.id.buttonRotateR:
+				unDraw();
+				currentPiece.rotateRight();
+				reDraw();
+				break;
+
+			case R.id.ButtonRotateL:
+				unDraw();
+				currentPiece.rotateLeft();
+				reDraw();
+				break;
+
+			case R.id.buttonPause:
+				if (game) {
+					game = false;
+					btnPause.setText(R.string.resume);
+				} else {
+					game = true;
+					btnPause.setText(R.string.pause);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+
+
+
+	private void down() {
+
+		button0.setOnTouchListener(new View.OnTouchListener() {
+			private Handler mHandler;
+
+			@Override public boolean onTouch(View v, MotionEvent event) {
+
+
+
+				switch(event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						if (mHandler != null) return true;
+						mHandler = new Handler();
+						mHandler.postDelayed(mAction, 500);
+						break;
+					case MotionEvent.ACTION_UP:
+						if (mHandler == null) return true;
+						mHandler.removeCallbacks(mAction);
+						mHandler = null;
+						break;
+				}
+				return false;
+			}
+
+			final Runnable mAction = new Runnable() {
+				@Override public void run() {
+
+					unDraw();
+					currentPiece.moveDown();
+					reDraw();
+
+					mHandler.postDelayed(this, 10);
+				}
+			};
+		});
+	}
+
+
+	private void right() {
+
+		button2.setOnTouchListener(new View.OnTouchListener() {
+			private Handler mHandler;
+
+			@Override public boolean onTouch(View v, MotionEvent event) {
+				switch(event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						if (mHandler != null) return true;
+						mHandler = new Handler();
+						mHandler.postDelayed(mAction, 500);
+						break;
+					case MotionEvent.ACTION_UP:
+						if (mHandler == null) return true;
+						mHandler.removeCallbacks(mAction);
+						mHandler = null;
+						break;
+				}
+				return false;
+			}
+
+			final Runnable mAction = new Runnable() {
+				@Override public void run() {
+
+					unDraw();
+					currentPiece.moveRight();
+					reDraw();
+
+					mHandler.postDelayed(this, 10);
+				}
+			};
+		});
+	}
+
+
+	private void left() {
+
+		button1.setOnTouchListener(new View.OnTouchListener() {
+			private Handler mHandler;
+
+			@Override public boolean onTouch(View v, MotionEvent event) {
+				switch(event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						if (mHandler != null) return true;
+						mHandler = new Handler();
+						mHandler.postDelayed(mAction, 500);
+						break;
+					case MotionEvent.ACTION_UP:
+						if (mHandler == null) return true;
+						mHandler.removeCallbacks(mAction);
+						mHandler = null;
+						break;
+				}
+				return false;
+			}
+
+			final Runnable mAction = new Runnable() {
+				@Override public void run() {
+
+					unDraw();
+					currentPiece.moveLeft();
+					reDraw();
+
+					mHandler.postDelayed(this, 10);
+				}
+			};
+		});
+	}
+	/*************************************************/
+	/* Main time bucle *******************************/
+	/*************************************************/
+	/* Checks the game state (ongoing, paused, *******/ 
+	/* ended... On each bucle, it tries to move the **/
+	/* current piece down. If its imposible, it ******/
+	/* checks for filled rows, updates the combo flag /
+	/* if necessary, and check if the game is loose, */
+	/* otherwise it initiates a new piece ************/
+	/*************************************************/
+	private void gameAction(){
+		if (game){
+			//Undraw the current piece
+			unDraw();
+			//Try to move it down.
+			if (!currentPiece.moveDown()){
+				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
+				for (int i = 0; i < 20; i++)
+					for (int j = 0; j < 10; j++){
+						if (currentPiece.box[i][j]){
+							box[i][j].setColor(currentPiece.getColor());
+							gameBoard.setColor(i, j, currentPiece.getColor());
+						}
+					}
+				/// ...check if there is any full row...
+				if (!lookForRows()){
+					combo = 1; //If nothing has been removed, set combo to 1
+					imageCombo.setImageResource(R.drawable.alpha);
+				}
+				//... check if the game is loose... 
+				checkGameLoose();
+				// ... and start a new piece
+				currentPiece = nextPiece;
+				currentPiece.start();
+				nextPiece = new Piece();
+				//Set the next piece image
+				switch(nextPiece.type){
+					case Values.PIECE_0:
+						nextPieceImg.setImageResource(R.drawable.piece0);
+						break;
+					case Values.PIECE_1:
+						nextPieceImg.setImageResource(R.drawable.piece1);
+						break;
+					case Values.PIECE_2:
+						nextPieceImg.setImageResource(R.drawable.piece2);
+						break;
+					case Values.PIECE_3:
+						nextPieceImg.setImageResource(R.drawable.piece3);
+						break;
+					case Values.PIECE_4:
+						nextPieceImg.setImageResource(R.drawable.piece4);
+						break;
+					case Values.PIECE_5:
+						nextPieceImg.setImageResource(R.drawable.piece5);
+						break;
+					case Values.PIECE_6:
+						nextPieceImg.setImageResource(R.drawable.piece6);
+						break;
+				}
+			}
+			//Copy the board info to the piece
+			currentPiece.readBoard(box);
+			reDraw();
+		}
+	}
+
+	/*************************************************/
+	/* Checks if the current game is loose************/
+	/*************************************************/
+	/* Checks if there is something in the first two */ 
+	/* rows of the board. If there is something, *****/
+	/* the game is loose. Score is checked for *******/
+	/* highscores and those are updated if necessary */
+	/* A dialog is shown to the user where the score */
+	/* and a trophy (if highscore) are shown, and ****/
+    /* asking to choose between exiting or sharing ***/
+    /* the score with an external app. On exit, the **/
+    /* activity is finished and you return to the ****/
+    /* main menu *************************************/
+	/*************************************************/
+	private void checkGameLoose() {
+		int hScore1, hScore2, hScore3, aux;
+		String hScore1Date, hScore2Date, hScore3Date, auxDate;
+		boolean loose = false;
+		for (int j = 0; j < 10; j++)
+			if (box[1][j].getColor() != Values.COLOR_NONE)
+				loose = true;
+		if (!loose)
+			return;
+		//If I get here, the game is loose. Game state variable is set to false
+		game = false;
+		//Vibrate if vibration is active in prefenrences
+		//TODO: See line above
+		//vibrate(1000);
+		//Add high scores if needed
+		SharedPreferences highScores = getSharedPreferences("highScores", 0);
+		hScore1 = highScores.getInt("hScore1", 0);
+		hScore2 = highScores.getInt("hScore2", 0);
+		hScore3 = highScores.getInt("hScore3", 0);
+		hScore1Date = highScores.getString("hScore1Date", "0");
+		hScore2Date = highScores.getString("hScore2Date", "0");
+		hScore3Date = highScores.getString("hScore3Date", "0");
+		Calendar currentDate = Calendar.getInstance();
+		Date dateNow = currentDate.getTime();
+		if(score > hScore3){
+			hScore3 = score;
+			hScore3Date = dateNow.toString();
+		}
+		if(hScore3 > hScore2){
+			aux = hScore2;
+			hScore2 = hScore3;
+			hScore2Date = hScore3Date;
+			hScore3 = aux;
+		}
+		if(hScore2 > hScore1){
+			aux = hScore1;
+			hScore1 = hScore2;
+			hScore1Date = hScore2Date;
+			hScore2 = aux;
+		}
+		SharedPreferences.Editor editor = highScores.edit();
+		editor.putInt("hScore1", hScore1);
+		editor.putInt("hScore2", hScore2);
+		editor.putInt("hScore3", hScore3);
+		editor.putString("hScore1Date", hScore1Date);
+		editor.putString("hScore2Date", hScore1Date);
+		editor.putString("hScore3Date", hScore1Date);
+		editor.commit();
+		//Show dialog showing score
+		//TODO:Show a trophy icon if high score
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.gameover);
+		String msg = getString(R.string.score)+ Integer.toString(score);
+		builder.setMessage(msg)
+				.setCancelable(false)
+				//A button to just quit. Finishes the activity, so the user returns to the main menu
+				.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+						finish();
+					}
+				})
+				//A button to just share score with an external app
+				.setPositiveButton(R.string.shareScore, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Intent shareIntent = new Intent(Intent.ACTION_SEND);
+						shareIntent.setType("text/plain");
+						shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareScore1) + " " + Integer.toString(score) + " " + getString(R.string.shareScore2));
+						shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+						startActivity(Intent.createChooser(shareIntent, getString(R.string.shareScoreSelector)));
+					}
+				});
+		AlertDialog endGameAlert = builder.create();
+		endGameAlert.show();
+	}
+
+	/*************************************************/
+	/* Checks for filled rows ***********/
+	/*************************************************/
+	/* Check if some row is filled. If there is some */
+	/* it calls to removeRow(), that will remove the */
+    /* row and increase score. ***********************/
+	/* This function returns a boolean indicating if */
+	/* something has been removed, to keep track of  */
+	/* the combo multiplier. *************************/
+	/*************************************************/
+	private boolean lookForRows(){
+		boolean somethingRemoved = false; //To determine if some row has been removed to keep the combo
+		boolean full;
+		for (int i = 1; i < 20; i++){
+			full = true;
+			for (int j = 0; j < 10; j++){
+				if (box[i][j].getColor() == Values.COLOR_NONE)
+					full = false;
+			}
+			if (full){
+				somethingRemoved = true;
+				//Remove the row. The score is increase here
+				removeRow(i);
+			}
+		}
+		return somethingRemoved;
+	}
+
+
+	/*************************************************/
+	/* Removes the row passed as argument ************/
+	/*************************************************/
+	/* First increases the score according to the ****/
+	/* combo multiplier. Then doubles the combo ******/
+    /* multiplier (never higher than 16). Finally it */
+	/* moves all the rows above the removed one one **/
+	/* position down. ********************************/
+	/*************************************************/
+	private void removeRow(int row){
+		//vibrate(500);
+		score = score + Values.SCORE_PER_ROW * combo;
+		textScore.setText(Integer.toString(score));
+		//Setcombo multiplier
+		combo = combo * 2;
+		if (combo == 32)
+			combo = 16;
+		switch (combo){
+			case 2:
+				imageCombo.setImageResource(R.drawable.x2);
+				break;
+			case 4:
+				imageCombo.setImageResource(R.drawable.x4);
+				break;
+			case 8:
+				imageCombo.setImageResource(R.drawable.x8);
+				break;
+			case 16:
+				imageCombo.setImageResource(R.drawable.x16);
+				break;
+		}
+		for (int i = row; i > 1; i--)
+			for (int j = 0; j < 10; j++){
+				box[i][j].setColor(box[i - 1][j].getColor());
+				gameBoard.setColor(i, j, (byte) box[i - 1][j].getColor());
+			}
+	}
+
+	/*************************************************/
+	/* Draws the piece being played ******************/
+	/*************************************************/
+	/* Draws cubes in the positions occupied by the **/
+	/* current piece. Should be called after undraw() /
+	/*************************************************/
+	private void reDraw(){
+		//Read where the piece is and colorize
+		for (int i = 0; i < 20; i++)
+			for (int j = 0; j < 10; j++){
+				if (currentPiece.box[i][j]){
+					box[i][j].setColor(currentPiece.getColor());
+					gameBoard.setColor(i, j, currentPiece.getColor());
+				}
+			}
+	}
+
+	/*************************************************/
+	/* Clears the piece being played *****************/
+	/*************************************************/
+	/* Clears cubes in the positions occupied by the */
+	/* current piece. Should be called befors draw() */
+	/*************************************************/
+	private void unDraw(){
+		for (int i = 0; i < 20; i++)
+			for (int j = 0; j < 10; j++){
+				if (currentPiece.box[i][j]){
+					box[i][j].setColor(0);
+					gameBoard.setColor(i, j, (byte) 0);
+				}
+			}
+	}
+
+	/*************************************************/
+	/* On finish activity ****************************/
+	/*************************************************/
+	/* Saves the game if it's running. Otherwise it **/
+	/* deletes last saved game ***********************/
+	/*************************************************/
+	@Override
+	public void onDestroy(){ //TODO: Implement. Check back button behavior
+		if (game){ //If the game is running. //TODO: Check behavior when game is paused
+			//Save state of all boxes
+			//Save current piece
+			//Save next piece
+			//Save score
+			//Save combo
+			game = false; //Actually pauses the game
+			super.onDestroy();
+		}
+	}
+
+}
