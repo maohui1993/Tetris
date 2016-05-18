@@ -164,18 +164,12 @@ public class Game extends AppCompatActivity
 				unDraw();
 				currentPiece.moveRight();
 				reDraw();
-
-				// long press
-				right();
 				break;
 
 			case R.id.ButtonMoveL:
 				unDraw();
 				currentPiece.moveLeft();
 				reDraw();
-
-				// long press
-				left();
 				break;
 
 			case R.id.ButtonMoveD:
@@ -257,74 +251,6 @@ public class Game extends AppCompatActivity
 	}
 
 
-	private void right() {
-
-		button2.setOnTouchListener(new View.OnTouchListener() {
-			private Handler mHandler;
-
-			@Override public boolean onTouch(View v, MotionEvent event) {
-				switch(event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-						if (mHandler != null) return true;
-						mHandler = new Handler();
-						mHandler.postDelayed(mAction, 500);
-						break;
-					case MotionEvent.ACTION_UP:
-						if (mHandler == null) return true;
-						mHandler.removeCallbacks(mAction);
-						mHandler = null;
-						break;
-				}
-				return false;
-			}
-
-			final Runnable mAction = new Runnable() {
-				@Override public void run() {
-
-					unDraw();
-					currentPiece.moveRight();
-					reDraw();
-
-					mHandler.postDelayed(this, 10);
-				}
-			};
-		});
-	}
-
-
-	private void left() {
-
-		button1.setOnTouchListener(new View.OnTouchListener() {
-			private Handler mHandler;
-
-			@Override public boolean onTouch(View v, MotionEvent event) {
-				switch(event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-						if (mHandler != null) return true;
-						mHandler = new Handler();
-						mHandler.postDelayed(mAction, 500);
-						break;
-					case MotionEvent.ACTION_UP:
-						if (mHandler == null) return true;
-						mHandler.removeCallbacks(mAction);
-						mHandler = null;
-						break;
-				}
-				return false;
-			}
-
-			final Runnable mAction = new Runnable() {
-				@Override public void run() {
-
-					unDraw();
-					currentPiece.moveLeft();
-					reDraw();
-
-					mHandler.postDelayed(this, 10);
-				}
-			};
-		});
-	}
 
 
 

@@ -2,6 +2,7 @@ package org.oucho.tetris;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity
         this.findViewById(R.id.buttonNewGame).setOnClickListener(this);
         this.findViewById(R.id.buttonHighScores).setOnClickListener(this);
 
+        final MediaPlayer intro = MediaPlayer.create(this, R.raw.intro);
+        intro.start();
+
     }
 
 
@@ -40,13 +44,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
 
-            case R.id.buttonAbout:
-                showAboutDialog();
-                break;
-
             case R.id.buttonHighScores:
                 intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.HighScores"));
                 startActivity(intent);
+                break;
+
+            case R.id.buttonAbout:
+                showAboutDialog();
                 break;
 
             default:

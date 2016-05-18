@@ -17,13 +17,7 @@
         android:id="@+id/buttonNewGame"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Jouer" android:layout_margin="5dp"/>
-
-    <Button
-        android:id="@+id/buttonAbout"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:text="A propos"
+        android:text="Jouer"
         android:layout_margin="5dp"/>
 
     <Button
@@ -31,6 +25,13 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:text="Scores"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/buttonAbout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="@string/about"
         android:layout_margin="5dp"/>
 
 </LinearLayout>
