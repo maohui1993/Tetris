@@ -6,19 +6,9 @@ package org.oucho.tetris;
 final class Values {
 	
 	//Score codes
-	public static final int SCORE_PER_ROW = 1000;
+	public static final int SCORE_PER_ROW = 100;
 	
 	//Color codes
-/*	public static final byte COLOR_NONE = 0;
-	public static final byte COLOR_RED = 1;
-	public static final byte COLOR_GREEN = 2;
-	public static final byte COLOR_BLUE = 3;
-	public static final byte COLOR_YELLOW = 4;
-	public static final byte COLOR_PINK = 5;
-	public static final byte COLOR_PURPLE = 6;
-	public static final byte COLOR_WHITE = 7;*/
-
-
 	public static final byte COLOR_NONE = 0;
 	public static final byte COLOR_CYAN = 1;
 	public static final byte COLOR_BLUE = 2;

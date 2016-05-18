@@ -18,14 +18,15 @@
             android:id="@+id/linearLayoutBoard"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"            
+            android:orientation="vertical"
             android:layout_weight=".3"
-            android:paddingBottom="10dp">
+            android:layout_marginLeft="15dp">
 
             <org.oucho.tetris.BoardView
                 android:id="@+id/GameView"
                 android:layout_height="fill_parent"
-                android:layout_width="fill_parent">                
+                android:layout_width="fill_parent"
+                android:paddingTop="15dp">
             </org.oucho.tetris.BoardView>
 
         </LinearLayout>
@@ -76,13 +77,44 @@
                     android:id="@+id/TextViewScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"/>
-                <ImageView  
-                    android:layout_height="0dip"
-                    android:layout_weight=".1" 
-                    android:src="@drawable/alpha" 
-                    android:layout_width="fill_parent"
-                    android:id="@+id/imageViewCombo"/>
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextViewLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Niveau"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/niveau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lignes"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/lignes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0"/>
+
 
             </LinearLayout>
 
@@ -101,14 +133,14 @@
             android:id="@+id/ButtonRotateL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".2" 
+            android:layout_weight=".2"
             android:src="@drawable/ic_rotate_left_black_36dp"/>
 
         <ImageView
             android:id="@+id/ButtonMoveL"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:layout_weight=".2" 
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
             android:src="@drawable/ic_keyboard_arrow_left_black_36dp"/>
 
         <ImageView

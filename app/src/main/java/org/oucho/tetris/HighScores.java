@@ -14,7 +14,7 @@ import android.widget.TextView;
 /* button to clear them **************************/
 /*************************************************/
 //TODO: Implement a clear button
-public class HighScores extends Activity{
+public class HighScores extends Activity {
 	
 	/*************************************************/
 	/* On create *************************************/

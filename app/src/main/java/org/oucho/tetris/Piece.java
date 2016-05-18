@@ -1304,9 +1304,11 @@ class Piece {
 						break;
 				}
 				break;
+
 			case Values.PIECE_3:
 				//Is the cube, so, do nothing!
 				break;
+
 			case Values.PIECE_4: // inverted 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation - 1){
@@ -1332,6 +1334,7 @@ class Piece {
 						box[i][j + 1] = false;
 						box[i + 1][j - 1] = false;
 						break;
+
 					case 0: //From leftup & rightdown to upleft & downright 
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1408,6 +1411,7 @@ class Piece {
 						break;
 				}
 				break;
+
 			case Values.PIECE_5: // 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation - 1){

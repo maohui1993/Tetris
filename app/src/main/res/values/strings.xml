@@ -3,7 +3,6 @@
 
 
     <string name="exit">Exit</string>
-    <string name="shareScore">Share score</string>
     <string name="score">Score:</string>
     <string name="pause">\nPause\n</string>
     <string name="resume">\nResume\n</string>
@@ -32,7 +31,4 @@
     <string name="preferencesScreenKeepOn">Keep on</string>
     <string name="preferencesScreenKeepOnChecked">Screen will not lock</string>
     <string name="preferencesScreenKeepOnUnchecked">Screen will lock as usually</string>
-    <string name="shareScoreSelector">Share with#8230;</string>
-    <string name="shareScore1">I just scored </string>
-    <string name="shareScore2"> playing Tetris! \n\nCheck it out:\n\n[link]</string>
 </resources>

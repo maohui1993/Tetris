@@ -34,7 +34,7 @@ class Box {
 	/* Defines the position and size of the box and **/
 	/* marks it as free ******************************/
 	/*************************************************/
-	public Box(int _top, int _left, int _side){
+	public Box(){
 		color = Values.COLOR_NONE;
 	}
 }
