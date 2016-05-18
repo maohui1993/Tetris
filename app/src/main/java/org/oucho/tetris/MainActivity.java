@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.findViewById(R.id.buttonAbout).setOnClickListener(this);
         this.findViewById(R.id.buttonNewGame).setOnClickListener(this);
-        this.findViewById(R.id.buttonResumeGame).setOnClickListener(this);
         this.findViewById(R.id.buttonHighScores).setOnClickListener(this);
 
     }
@@ -40,10 +40,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
 
-            case R.id.buttonResumeGame:
-                intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.Game"));
-                //TODO: Something to load a game. First I need to develop something to save the game
-                startActivity(intent);
+            case R.id.buttonAbout:
+                showAboutDialog();
                 break;
 
             case R.id.buttonHighScores:
@@ -56,6 +54,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**************
+     * About dialog
+     **************/
+
+    private void showAboutDialog(){
+        AboutDialog dialog = new AboutDialog();
+        dialog.show(getSupportFragmentManager(), "about");
+    }
 
     /*************************************************/
 	/* Create the options menu ***********************/

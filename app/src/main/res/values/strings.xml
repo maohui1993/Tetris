@@ -8,9 +8,9 @@
     <string name="resume">\nResume\n</string>
     <string name="gameover">Game over</string>
 
-    <string name="first">"1st"</string>
-    <string name="second">"2nd"</string>
-    <string name="third">"3rd"</string>
+    <string name="first">"1er"</string>
+    <string name="second">"2ème"</string>
+    <string name="third">"3ème"</string>
     <string name="nohscores">"No scores"</string>
     <string name="preferences">"Preferences"</string>
     <string name="preferencesSound">Sound</string>
@@ -31,4 +31,20 @@
     <string name="preferencesScreenKeepOn">Keep on</string>
     <string name="preferencesScreenKeepOnChecked">Screen will not lock</string>
     <string name="preferencesScreenKeepOnUnchecked">Screen will lock as usually</string>
+
+    <string name="about">A propos</string>
+
+    <string name="about_message">
+        \n
+        Tetris\n
+        \n
+        Old Geek, 2016\n
+        \n
+        Licence: aucune, profitez, partagez.\n
+        \n
+        \n
+        Code source\n
+        https://github.com/Old-Geek/Tetris\n
+        \n
+    </string>
 </resources>

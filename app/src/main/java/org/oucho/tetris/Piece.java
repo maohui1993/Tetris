@@ -567,12 +567,16 @@ class Piece {
 						//Check availability
 						if (i == 18)
 							return false;
+
 						if (i == 19)
 							return false;
+
 						if (board[i + i][j + 2])
 							return false;
+
 						if (board[i + 2][j + 2])
 							return false;
+
 						//Perform transformation
 						box[i + 1][j + 2] = true;
 						box[i + 2][j + 2] = true;

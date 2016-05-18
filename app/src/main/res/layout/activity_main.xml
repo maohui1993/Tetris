@@ -9,6 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.oucho.tetris.MainActivity">
 
-    <include layout="@layout/init" />
+    <include layout="@layout/activity_content" />
 
 </RelativeLayout>
