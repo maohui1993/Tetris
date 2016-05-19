@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
 
     private final static Intent intent = new Intent();
-
+    private MediaPlayer intro;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         this.findViewById(R.id.buttonNewGame).setOnClickListener(this);
         this.findViewById(R.id.buttonHighScores).setOnClickListener(this);
 
-        final MediaPlayer intro = MediaPlayer.create(this, R.raw.intro);
+        intro = MediaPlayer.create(this, R.raw.intro);
         intro.start();
 
     }
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
 
                 intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.Game"));
                 startActivity(intent);
+                intro.stop();
                 break;
 
             case R.id.buttonHighScores:

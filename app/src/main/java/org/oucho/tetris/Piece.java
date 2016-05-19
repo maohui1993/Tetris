@@ -2,9 +2,8 @@ package org.oucho.tetris;
 
 import java.util.Random;
 
-/*************************************************/
-/* A piece is a set of boxes. There are 7 ********/
-/*************************************************/
+
+
 class Piece {
 
 	//The type of the piece, the shape.
@@ -28,12 +27,8 @@ class Piece {
 		return color;
 	}
 	
-	/*************************************************/
-	/* Class constructor *****************************/
-	/*************************************************/
-	/* Sets a random type for the piece, sets the ****/
-	/* color and gives it a null position ************/
-	/*************************************************/
+
+
 	Piece() {
 		Random generator = new Random();
 
@@ -68,49 +63,63 @@ class Piece {
 	public void start(){
 		switch (type){
 			//In the Values class there is a "graphical description" of each piece
-			case Values.PIECE_0: //The bar
-				box[0][3] = true;
+
+			/// 0 = haut, 1 = bas
+
+			case Values.PIECE_0: //The bar _
 				box[0][4] = true;
-				box[0][5] = true;
-				box[0][6] = true;
+				box[1][4] = true;
+				box[2][4] = true;
+				box[3][4] = true;
+
 				break;
 
-			case Values.PIECE_1: //The 'L'-shaped
+			case Values.PIECE_1: //The 'L'-shaped  __|
 				box[0][4] = true;
 				box[1][4] = true;
 				box[1][5] = true;
 				box[1][6] = true;
+/*				box[0][4] = true;
+				box[1][4] = true;
+				box[2][4] = true;
+				box[2][5] = true;*/
+
 				break;
 
-			case Values.PIECE_2: //The  inverted 'L'-shaped
+			case Values.PIECE_2: //The  inverted 'L'-shaped |__  *
 				box[0][5] = true;
 				box[1][3] = true;
 				box[1][4] = true;
 				box[1][5] = true;
+/*				box[0][4] = true;
+				box[1][4] = true;
+				box[2][4] = true;
+				box[2][3] = true;*/
+
 				break;
 
-			case Values.PIECE_3: //The cube
+			case Values.PIECE_3: //The cube ==
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][4] = true;
 				box[1][5] = true;
 				break;
 
-			case Values.PIECE_4: //The inverted 'Z'-shaped
+			case Values.PIECE_4: //The inverted 'Z'-shaped S
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][3] = true;
 				box[1][4] = true;
 				break;
 
-			case Values.PIECE_5: //The 'Z'-shaped
+			case Values.PIECE_5: //The 'Z'-shaped Z
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][5] = true;
 				box[1][6] = true;
 				break;
 
-			case Values.PIECE_6: //The inverted 'T'
+			case Values.PIECE_6: //The inverted 'T'  _|_
 				box[0][4] = true;
 				box[1][3] = true;
 				box[1][4] = true;
@@ -119,20 +128,15 @@ class Piece {
 		}
 	}
 	
-	/*************************************************/
-	/* This method receives the array of boxes from **/
-	/* the Game class, so the piece have info about **/
-	/* the state of the whole board. *****************/
-	/*************************************************/
-	/* I'm pretty sure there is a better way to do ***/
-	/* this. *****************************************/
-	/*************************************************/
+
+
 	public void readBoard(Box a[][]){
 		for (int i = 0; i < 20; i++)
         	for (int j = 0; j < 10; j++)
 				board[i][j] = a[i][j].getColor() != Values.COLOR_NONE;
 	}
-	
+
+
 	//Called when a piece is going to be moved. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
 	public boolean moveDown() {
 
@@ -205,51 +209,25 @@ class Piece {
 			System.arraycopy(aux[i], 0, box[i], 0, 10);
 		return true;							//Piece moved!
 	}
-	
+
+
+
 	//Called when a piece is going to be rotated. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
-	//DISCLAIMER:
-	//Very confusing code. VERY VERY confusing
-	//The next two methods are a succession of nested switch() that, first, identify the piece, and, next, rotates from it's previous position
-	//Each case is treated separately, as I haven't found any common method. Each case is shortly commented, but it's not very clear.
-	//Sorry about that
+
+
 	public boolean rotateRight(){
 		int i = 0;
 		int j = 0;
 		switch (type){
+
+			// bare
 			case Values.PIECE_0:
 				//Switch next rotation state
 				switch (rotation + 1){
+
+
+					case 3:
 					case 1: //From horizontal to vertical
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (i == 19)
-							return false;
-						if (i == 0)
-							return false;
-						if (board[i - 1][j + 2])
-							return false;
-						if (board[i + 1][j + 2])
-							return false;
-						if (board[i + 2][j + 2])
-							return false;
-						//Perform transformation
-						box[i - 1][j + 2] = true;
-						box[i + 1][j + 2] = true;
-						box[i + 2][j + 2] = true;
-						box[i][j] = false;
-						box[i][j + 1] = false;
-						box[i][j + 3] = false;
-						break;
-					case 2: //From vertical to horizontal
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -295,7 +273,9 @@ class Piece {
 						box[i + 2][j] = false;
 						box[i + 3][j] = false;
 						break;
-					case 3: //From horizontal to vertical
+
+					case 4:
+					case 2: //From  vertical to horizontal
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -326,52 +306,6 @@ class Piece {
 						box[i][j + 3] = false;
 						break;
 
-					case 4: //From vertical to horizontal
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 10){
-								j = 0;
-								i++;
-							}
-						}
-						//If is behind the left wall, try to move right twice, on no one
-						if (j == 0){
-							if (!moveRight())
-								return false;
-							if (!moveRight()){
-								moveLeft();
-								return false;
-							}
-							j = j + 2;
-						}
-						//If is 1 distance the left wall, try to move right twice, on no one
-						if (j == 1){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//If is behind the right wall, try to move left
-						if (j == 9){
-							if (!moveLeft())
-								return false;
-							j = j - 1;
-						}
-						//Check availability
-						if (board[i + 1][j - 2])
-							return false;
-						if (board[i + 1][j - 1])
-							return false;
-						if (board[i + 1][j + 1])
-							return false;
-						//Perform transformation
-						box[i + 1][j - 2] = true;
-						box[i + 1][j - 1] = true;
-						box[i + 1][j + 1] = true;
-						box[i][j] = false;
-						box[i + 2][j] = false;
-						box[i + 3][j] = false;
-						break;
 				}
 				break;
 
@@ -620,6 +554,8 @@ class Piece {
 			case Values.PIECE_4: // inverted 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation + 1){
+
+					case 3:
 					case 1: //From upleft & downright to leftup & rghtdown
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -643,6 +579,7 @@ class Piece {
 						box[i + 1][j - 1] = false;
 						break;
 
+					case 4:
 					case 2: //From leftup & rightdown to upleft & downright 
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -670,61 +607,14 @@ class Piece {
 						box[i + 2][j + 1] = false;
 						break;
 
-					case 3: //From upleft & downright to leftup & rghtdown: Same as case 1
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (board[i + 1][j + 1])
-							return false;
-						if (board[i + 2][j + 1])
-							return false;
-						//Perform transformation
-						box[i + 1][j + 1] = true;
-						box[i + 2][j + 1] = true;
-						box[i][j + 1] = false;
-						box[i + 1][j - 1] = false;
-						break;
-
-					case 4: //From leftup & rightdown to upleft & downright // Same as case 2 
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//If its behind a wall, try to move right
-						if (j == 0){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//Check availability
-						if (board[i][j + 1])
-							return false;
-						if (board[1 + 1][j - 1])
-							return false;				
-						//Perform transformation
-						box[i][j + 1] = true;
-						box[i + 1][j - 1] = true;
-						box[i + 1][j + 1] = false;
-						box[i + 2][j + 1] = false;
-						break;
 				}
 				break;
 
 			case Values.PIECE_5: // 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation + 1){
+
+					case 3:
 					case 1: //From downleft & upright to rightup & leftdown
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -748,6 +638,7 @@ class Piece {
 						box[i][j + 1] = false;
 						break;
 
+					case 4:
 					case 2: //From rightup & leftdown to downleft & upright
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -775,55 +666,6 @@ class Piece {
 						box[i + 2][j - 1] = false;
 						break;
 
-					case 3: //From downleft & upright to rightup & leftdown: Same as case 1
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (board[i + 2][j + 1])
-							return false;
-						if (board[i][j + 2])
-							return false;
-						//Perform transformation
-						box[i + 2][j + 1] = true;
-						box[i][j + 2] = true;
-						box[i][j] = false;
-						box[i][j + 1] = false;
-						break;
-
-					case 4: //From rightup & leftdown to downleft & upright: SAme as case 2
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 10){
-								j = 0;
-								i++;
-							}
-						}
-						//If its behind a wall, try to move right
-						if (j == 1){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//Check availability
-						if (board[i][j - 2])
-							return false;
-						if (board[1][j - 1])
-							return false;				
-						//Perform transformation
-						box[i][j - 2] = true;
-						box[i][j - 1] = true;
-						box[i][j] = false;
-						box[i + 2][j - 1] = false;
-						break;
 
 				}
 				break;
@@ -925,10 +767,17 @@ class Piece {
 		int i = 0;
 		int j = 0;
 		switch (type){
+
+			// bare
 			case Values.PIECE_0:
+
 				//Switch next rotation state
 				switch (rotation - 1){
-					case -1: //From horizontal to vertical
+
+
+					// Vertical vers horizontal
+					case 0:
+					case 2:
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -958,7 +807,12 @@ class Piece {
 						box[i][j + 1] = false;
 						box[i][j + 3] = false;
 						break;
-					case 0: //From vertical to horizontal
+
+
+					// Horizontal vers vertical
+					case -1:
+					case 1:
+
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -967,6 +821,7 @@ class Piece {
 								i++;
 							}
 						}
+
 						//If is behind the left wall, try to move right twice, on no one
 						if (j == 0){
 							if (!moveRight())
@@ -977,18 +832,21 @@ class Piece {
 							}
 							j = j + 2;
 						}
+
 						//If is 1 distance the left wall, try to move right twice, on no one
 						if (j == 1){
 							if (!moveRight())
 								return false;
 							j = j + 1;
 						}
+
 						//If is behind the right wall, try to move left
 						if (j == 9){
 							if (!moveLeft())
 								return false;
 							j = j - 1;
 						}
+
 						//Check availability
 						if (board[i + 1][j - 2])
 							return false;
@@ -996,6 +854,7 @@ class Piece {
 							return false;
 						if (board[i + 1][j + 1])
 							return false;
+
 						//Perform transformation
 						box[i + 1][j - 2] = true;
 						box[i + 1][j - 1] = true;
@@ -1004,88 +863,15 @@ class Piece {
 						box[i + 2][j] = false;
 						box[i + 3][j] = false;
 						break;
-					case 1: //From horizontal to vertical
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (i == 19)
-							return false;
-						if (i == 0)
-							return false;
-						if (board[i - 1][j + 2])
-							return false;
-						if (board[i + 1][j + 2])
-							return false;
-						if (board[i + 2][j + 2])
-							return false;
-						//Perform transformation
-						box[i - 1][j + 2] = true;
-						box[i + 1][j + 2] = true;
-						box[i + 2][j + 2] = true;
-						box[i][j] = false;
-						box[i][j + 1] = false;
-						box[i][j + 3] = false;
-						break;
-					case 2: //From vertical to horizontal
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 10){
-								j = 0;
-								i++;
-							}
-						}
-						//If is behind the left wall, try to move right twice, on no one
-						if (j == 0){
-							if (!moveRight())
-								return false;
-							if (!moveRight()){
-								moveLeft();
-								return false;
-							}
-							j = j + 2;
-						}
-						//If is 1 distance the left wall, try to move right twice, on no one
-						if (j == 1){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//If is behind the right wall, try to move left
-						if (j == 9){
-							if (!moveLeft())
-								return false;
-							j = j - 1;
-						}
-						//Check availability
-						if (board[i + 1][j - 2])
-							return false;
-						if (board[i + 1][j - 1])
-							return false;
-						if (board[i + 1][j + 1])
-							return false;
-						//Perform transformation
-						box[i + 1][j - 2] = true;
-						box[i + 1][j - 1] = true;
-						box[i + 1][j + 1] = true;
-						box[i][j] = false;
-						box[i + 2][j] = false;
-						box[i + 3][j] = false;
-						break;
+
 				}
 				break;
+
+			// L
 			case Values.PIECE_1:
 				//Switch new rotation state
 				switch (rotation - 1){
-					case -1: //From horizontal left-side-up to vertical low-side-left
+					case -1: //Horizontal queue vers le haut (left-side-up) - vertical queue vers le gauche low-side-left
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -1113,6 +899,7 @@ class Piece {
 						box[i + 1][j] = false;
 						box[i + 1][j + 1] = false;
 						break;
+
 					case 0: //From vertical top-side-right to horizontal left-side-up
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1316,6 +1103,8 @@ class Piece {
 			case Values.PIECE_4: // inverted 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation - 1){
+
+					case 1:
 					case -1: //From upleft & downright to leftup & rghtdown
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1339,6 +1128,7 @@ class Piece {
 						box[i + 1][j - 1] = false;
 						break;
 
+					case 2:
 					case 0: //From leftup & rightdown to upleft & downright 
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1365,60 +1155,15 @@ class Piece {
 						box[i + 1][j + 1] = false;
 						box[i + 2][j + 1] = false;
 						break;
-					case 1: //From upleft & downright to leftup & rghtdown: Same as case 1
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (board[i + 1][j + 1])
-							return false;
-						if (board[i + 2][j + 1])
-							return false;
-						//Perform transformation
-						box[i + 1][j + 1] = true;
-						box[i + 2][j + 1] = true;
-						box[i][j + 1] = false;
-						box[i + 1][j - 1] = false;
-						break;
-					case 2: //From leftup & rightdown to upleft & downright // Same as case 2 
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//If its behind a wall, try to move right
-						if (j == 0){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//Check availability
-						if (board[i][j + 1])
-							return false;
-						if (board[1 + 1][j - 1])
-							return false;				
-						//Perform transformation
-						box[i][j + 1] = true;
-						box[i + 1][j - 1] = true;
-						box[i + 1][j + 1] = false;
-						box[i + 2][j + 1] = false;
-						break;
+
 				}
 				break;
 
 			case Values.PIECE_5: // 'Z'- shaped
 				//Switch new rotation state
 				switch (rotation - 1){
+
+					case 1:
 					case -1: //From downleft & upright to rightup & leftdown
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1441,6 +1186,8 @@ class Piece {
 						box[i][j] = false;
 						box[i][j + 1] = false;
 						break;
+
+					case 2:
 					case 0: //From rightup & leftdown to downleft & upright
 						//Find the first occupied box
 						while (!box[i][j]){
@@ -1467,56 +1214,10 @@ class Piece {
 						box[i][j] = false;
 						box[i + 2][j - 1] = false;
 						break;
-					case 1: //From downleft & upright to rightup & leftdown: Same as case 1
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 9){
-								j = 0;
-								i++;
-							}
-						}
-						//Check availability
-						if (i == 18)
-							return false;
-						if (board[i + 2][j + 1])
-							return false;
-						if (board[i][j + 2])
-							return false;
-						//Perform transformation
-						box[i + 2][j + 1] = true;
-						box[i][j + 2] = true;
-						box[i][j] = false;
-						box[i][j + 1] = false;
-						break;
-					case 2: //From rightup & leftdown to downleft & upright: SAme as case 2
-						//Find the first occupied box
-						while (!box[i][j]){
-							j++;
-							if (j == 10){
-								j = 0;
-								i++;
-							}
-						}
-						//If its behind a wall, try to move right
-						if (j == 1){
-							if (!moveRight())
-								return false;
-							j = j + 1;
-						}
-						//Check availability
-						if (board[i][j - 2])
-							return false;
-						if (board[1][j - 1])
-							return false;
-						//Perform transformation
-						box[i][j - 2] = true;
-						box[i][j - 1] = true;
-						box[i][j] = false;
-						box[i + 2][j - 1] = false;
-						break;
 				}
 				break;
+
+
 			case Values.PIECE_6: // 'T'- shaped
 				//Switch new rotation state
 				switch (rotation - 1){

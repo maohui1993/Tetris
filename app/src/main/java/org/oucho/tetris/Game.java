@@ -6,7 +6,10 @@ import java.util.Date;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -29,6 +32,8 @@ public class Game extends AppCompatActivity
 	private Piece nextPiece = new Piece();
 	private Piece currentPiece = new Piece();
 
+	private MediaPlayer musique;
+
 	private BoardView gameBoard;
 
 	private TextView btnPause;
@@ -41,6 +46,16 @@ public class Game extends AppCompatActivity
 	private ImageView button1;
 	private ImageView button2;
 	private ImageView nextPieceImg;
+
+
+	private ImageView pièce0;
+	private ImageView pièce1;
+	private ImageView pièce2;
+	private ImageView pièce3;
+	private ImageView pièce4;
+	private ImageView pièce5;
+	private ImageView pièce6;
+
 
 	private int score = 0;
 	private int combo = 1;
@@ -63,7 +78,16 @@ public class Game extends AppCompatActivity
 		button0 = (ImageView) findViewById(R.id.ButtonMoveD);
 		button1 = (ImageView) findViewById(R.id.ButtonMoveL);
 		button2 = (ImageView) findViewById(R.id.ButtonMoveR);
-		nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
+
+		//nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
+
+		pièce0 = (ImageView) findViewById(R.id.pièce0);
+		pièce1 = (ImageView) findViewById(R.id.pièce1);
+		pièce2 = (ImageView) findViewById(R.id.pièce2);
+		pièce3 = (ImageView) findViewById(R.id.pièce3);
+		pièce4 = (ImageView) findViewById(R.id.pièce4);
+		pièce5 = (ImageView) findViewById(R.id.pièce5);
+		pièce6 = (ImageView) findViewById(R.id.pièce6);
 
 		niveau = (TextView) findViewById(R.id.niveau);
 		nbLignes = (TextView) findViewById(R.id.lignes);
@@ -79,6 +103,10 @@ public class Game extends AppCompatActivity
 
 		game = true;
 
+		musique = MediaPlayer.create(this, R.raw.music);
+		musique.setLooping(true);
+		musique.start();
+
 		textScore.setText("0");
 		niveau.setText("0");
 
@@ -92,6 +120,26 @@ public class Game extends AppCompatActivity
 
 	}
 
+	   /* **********************************************************************************************
+    * Pause, resume etc.
+    * *********************************************************************************************/
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		game = false;
+		musique.stop();
+		btnPause.setText(R.string.resume);
+
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		game = false;
+		musique.stop();
+	}
 
 	private void board() {
 		//Get measures for the board
@@ -117,34 +165,6 @@ public class Game extends AppCompatActivity
 				x = x + d;
 			}
 			y = y + d;
-		}
-	}
-
-	private void setImgs() {
-		//Set image for next piece
-		//Has to be done here, or there is no next piece image at the beggining
-		switch(nextPiece.type){
-			case Values.PIECE_0:
-				nextPieceImg.setImageResource(R.drawable.piece0);
-				break;
-			case Values.PIECE_1:
-				nextPieceImg.setImageResource(R.drawable.piece1);
-				break;
-			case Values.PIECE_2:
-				nextPieceImg.setImageResource(R.drawable.piece2);
-				break;
-			case Values.PIECE_3:
-				nextPieceImg.setImageResource(R.drawable.piece3);
-				break;
-			case Values.PIECE_4:
-				nextPieceImg.setImageResource(R.drawable.piece4);
-				break;
-			case Values.PIECE_5:
-				nextPieceImg.setImageResource(R.drawable.piece5);
-				break;
-			case Values.PIECE_6:
-				nextPieceImg.setImageResource(R.drawable.piece6);
-				break;
 		}
 	}
 
@@ -198,9 +218,11 @@ public class Game extends AppCompatActivity
 				if (game) {
 					game = false;
 					btnPause.setText(R.string.resume);
+					musique.pause();
 				} else {
 					game = true;
 					btnPause.setText(R.string.pause);
+					musique.start();
 				}
 				break;
 
@@ -290,31 +312,12 @@ public class Game extends AppCompatActivity
 				// ... and start a new piece
 				currentPiece = nextPiece;
 				currentPiece.start();
+
 				nextPiece = new Piece();
+
 				//Set the next piece image
-				switch(nextPiece.type){
-					case Values.PIECE_0:
-						nextPieceImg.setImageResource(R.drawable.piece0);
-						break;
-					case Values.PIECE_1:
-						nextPieceImg.setImageResource(R.drawable.piece1);
-						break;
-					case Values.PIECE_2:
-						nextPieceImg.setImageResource(R.drawable.piece2);
-						break;
-					case Values.PIECE_3:
-						nextPieceImg.setImageResource(R.drawable.piece3);
-						break;
-					case Values.PIECE_4:
-						nextPieceImg.setImageResource(R.drawable.piece4);
-						break;
-					case Values.PIECE_5:
-						nextPieceImg.setImageResource(R.drawable.piece5);
-						break;
-					case Values.PIECE_6:
-						nextPieceImg.setImageResource(R.drawable.piece6);
-						break;
-				}
+				setImgs();
+
 			}
 
 			//Copy the board info to the piece
@@ -326,7 +329,99 @@ public class Game extends AppCompatActivity
 	}
 
 
+	private void setImgs() {
+		//Set image for next piece
+		//Has to be done here, or there is no next piece image at the beggining
+		switch(nextPiece.type){
+			case Values.PIECE_0:
 
+				pièce0.setVisibility(View.VISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+
+
+				//nextPieceImg.setImageResource(R.drawable.piece0);
+
+				break;
+			case Values.PIECE_1:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.VISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece1);
+
+				break;
+			case Values.PIECE_2:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.VISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece2);
+
+				break;
+			case Values.PIECE_3:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.VISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece3);
+
+				break;
+			case Values.PIECE_4:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.VISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece4);
+
+				break;
+			case Values.PIECE_5:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.VISIBLE);
+				pièce6.setVisibility(View.INVISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece5);
+
+				break;
+			case Values.PIECE_6:
+				pièce0.setVisibility(View.INVISIBLE);
+				pièce1.setVisibility(View.INVISIBLE);
+				pièce2.setVisibility(View.INVISIBLE);
+				pièce3.setVisibility(View.INVISIBLE);
+				pièce4.setVisibility(View.INVISIBLE);
+				pièce5.setVisibility(View.INVISIBLE);
+				pièce6.setVisibility(View.VISIBLE);
+				//nextPieceImg.setImageResource(R.drawable.piece6);
+
+
+/*				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.outHeight = XXXX;
+				options.outWidth = XXXX;
+				Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.myimage, options);
+
+				imageView.setImageBitmap(bm);*/
+				break;
+		}
+	}
 
 
 	/*************************************************/
