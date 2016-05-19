@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:baselineAligned="false"
     android:id="@+id/linearLayoutMain">
 
@@ -10,7 +11,7 @@
         android:id="@+id/linearLayoutScreen"
         android:layout_width="fill_parent"
         android:baselineAligned="false"
-        android:layout_height="fill_parent" 
+        android:layout_height="fill_parent"
         android:layout_weight=".1">
 
         <!-- I know that Nested weights are bad for performance, I know -->
@@ -26,7 +27,7 @@
                 android:id="@+id/GameView"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
-                android:paddingTop="15dp">
+                android:paddingTop="25dp">
             </org.oucho.tetris.BoardView>
 
         </LinearLayout>
@@ -35,98 +36,162 @@
             android:id="@+id/linearLayoutInfo"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" 
+            android:orientation="vertical"
+            android:paddingTop="25dp"
             android:layout_weight=".7">
 
-            <TextView
-                android:id="@+id/textViewNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="next"
-                android:layout_gravity="center"/>
 
-            <ImageView
-                android:id="@+id/imageViewNext"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center" 
-                android:layout_margin="10dp"/>
-
-            <Button
-                android:id="@+id/buttonPause"
+            <android.support.v7.widget.CardView
+                android:id="@+id/buttonNewGame"
+                style="@style/CardView.Light"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" 
-                android:text="pause"
-                android:layout_marginTop="20dp"/>
-
-            <LinearLayout
-                android:id="@+id/LinearLayoutScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="120dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                card_view:elevation="1dp" >
 
                 <TextView
-                    android:id="@+id/TextViewScoreLabel"
+                    android:id="@+id/textViewNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="score"
-                    android:layout_gravity="center"/>
+                    android:text="Suivant"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:id="@+id/TextViewScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/level"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/TextViewLevel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Niveau"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:id="@+id/niveau"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/imageViewNext"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:text="0"/>
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"/>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                style="@style/CardView.Light"
+                android:layout_width="80dp"
+                android:layout_height="200dp"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                card_view:elevation="1dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TextViewScoreLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Score"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/TextViewScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="-26dp"/>
+
+
+
+                    <TextView
+                        android:id="@+id/TextViewLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Niveau"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/niveau"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="-26dp"/>
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lignes"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/lignes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="-26dp"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardView.Light"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                card_view:elevation="1dp" >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lignes"
-                    android:layout_gravity="center"/>
+                    android:id="@+id/buttonPause"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="@string/pause"
+                    android:textColor="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/lignes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="0"/>
-
-
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
+
+
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayoutButtons"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight=".9">
+        android:layout_weight=".92">
 
         <!-- I know that Nested weights are bad for performance, I know -->
         <ImageView
@@ -147,21 +212,21 @@
             android:id="@+id/ButtonMoveD"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".2" 
+            android:layout_weight=".2"
             android:src="@drawable/ic_keyboard_arrow_down_black_36dp"/>
 
         <ImageView
             android:id="@+id/ButtonMoveR"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:layout_weight=".2" 
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
             android:src="@drawable/ic_keyboard_arrow_right_black_36dp"/>
 
         <ImageView
             android:id="@+id/buttonRotateR"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:layout_weight=".2" 
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
             android:src="@drawable/ic_rotate_right_black_36dp"/>
 
     </LinearLayout>

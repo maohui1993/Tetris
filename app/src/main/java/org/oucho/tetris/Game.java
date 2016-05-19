@@ -31,7 +31,7 @@ public class Game extends AppCompatActivity
 
 	private BoardView gameBoard;
 
-	private Button btnPause;
+	private TextView btnPause;
 
 	private TextView niveau;
 	private TextView nbLignes;
@@ -56,7 +56,7 @@ public class Game extends AppCompatActivity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.game);
 
-		btnPause = (Button) findViewById(R.id.buttonPause);
+		btnPause = (TextView) findViewById(R.id.buttonPause);
 
 		gameBoard = (BoardView) findViewById(R.id.GameView);
 

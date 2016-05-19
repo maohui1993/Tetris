@@ -3,9 +3,11 @@
 
 
     <string name="exit">Exit</string>
-    <string name="score">Score:</string>
-    <string name="pause">\nPause\n</string>
-    <string name="resume">\nResume\n</string>
+    <string name="score">Score: </string>
+
+    <string name="pause">Pause</string>
+    <string name="resume">Reprendre</string>
+
     <string name="gameover">Game over</string>
 
     <string name="first">"1er"</string>
