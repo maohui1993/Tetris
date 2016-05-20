@@ -39,7 +39,7 @@ class Piece {
 		for (int i = a; i > 0; i-- ) {
 			aleatoire = (byte) generator.nextInt(7);
 		}
-
+		//sound = MediaPlayer.create(context, R.raw.down);
 		type = aleatoire;
 
 		//type = 2;//TESTING, change to be all the same piece
@@ -55,6 +55,7 @@ class Piece {
 		for (int i = 0; i < 20; i++)
         	for (int j = 0; j < 10; j++)
         		box[i][j] = false;
+
 	}
 	
 	/*************************************************/
@@ -67,10 +68,10 @@ class Piece {
 			/// 0 = haut, 1 = bas
 
 			case Values.PIECE_0: //The bar _
+				box[0][3] = true;
 				box[0][4] = true;
-				box[1][4] = true;
-				box[2][4] = true;
-				box[3][4] = true;
+				box[0][5] = true;
+				box[0][6] = true;
 
 				break;
 
@@ -79,10 +80,7 @@ class Piece {
 				box[1][4] = true;
 				box[1][5] = true;
 				box[1][6] = true;
-/*				box[0][4] = true;
-				box[1][4] = true;
-				box[2][4] = true;
-				box[2][5] = true;*/
+
 
 				break;
 
@@ -91,10 +89,6 @@ class Piece {
 				box[1][3] = true;
 				box[1][4] = true;
 				box[1][5] = true;
-/*				box[0][4] = true;
-				box[1][4] = true;
-				box[2][4] = true;
-				box[2][3] = true;*/
 
 				break;
 
@@ -140,6 +134,7 @@ class Piece {
 	//Called when a piece is going to be moved. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
 	public boolean moveDown() {
 
+
 		aux = new boolean[20][10];				//New array. In the end, if everything is OK, it will be copied to the piece array
 
 		for (int j = 0; j < 10; j++)			
@@ -151,8 +146,8 @@ class Piece {
 
         		if (box[i][j]) { //If the piece is occupying a box
 
-        			if (board[i + 1][j])//If the box below is already occupied...
-        				return false;        	//... don't move
+        			if (board[i + 1][j]) //If the box below is already occupied...
+						return false;            //... don't move
 
         			aux[i + 1][j] = true;		//If the box below is free, mark as true in the auxiliary array
 
@@ -163,6 +158,8 @@ class Piece {
 
 		for (int i = 0; i < 20; i++)			//Copy the auxiliary array to the piece array
 			System.arraycopy(aux[i], 0, box[i], 0, 10);
+
+
 
 		return true;							//Piece moved!
 	}
@@ -187,7 +184,7 @@ class Piece {
 
 		for (int i = 0; i < 20; i++)			//Copy the auxiliary array to the piece array
 			System.arraycopy(aux[i], 0, box[i], 0, 10);
-		return true;							//Piece moved!
+		return true;//Piece moved!
 	}
 	
 	//Called when a piece is going to be moved. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
@@ -226,8 +223,8 @@ class Piece {
 				switch (rotation + 1){
 
 
-					case 3:
-					case 1: //From horizontal to vertical
+					case 4:
+					case 2: //From horizontal to vertical
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -274,8 +271,8 @@ class Piece {
 						box[i + 3][j] = false;
 						break;
 
-					case 4:
-					case 2: //From  vertical to horizontal
+					case 3:
+					case 1: //From  vertical to horizontal
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -776,8 +773,8 @@ class Piece {
 
 
 					// Vertical vers horizontal
-					case 0:
-					case 2:
+					case -1:
+					case 1:
 						//Find the first occupied box
 						while (!box[i][j]){
 							j++;
@@ -810,8 +807,8 @@ class Piece {
 
 
 					// Horizontal vers vertical
-					case -1:
-					case 1:
+					case 0:
+					case 2:
 
 						//Find the first occupied box
 						while (!box[i][j]){

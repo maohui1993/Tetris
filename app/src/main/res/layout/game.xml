@@ -27,7 +27,7 @@
                 android:id="@+id/GameView"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
-                android:paddingTop="25dp">
+                android:paddingTop="45dp">
             </org.oucho.tetris.BoardView>
 
         </LinearLayout>
@@ -37,7 +37,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:paddingTop="25dp"
+            android:paddingTop="45dp"
             android:layout_weight=".7">
 
 
@@ -258,7 +258,7 @@
         android:id="@+id/linearLayoutButtons"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight=".92">
+        android:layout_weight=".7">
 
         <!-- I know that Nested weights are bad for performance, I know -->
         <ImageView

@@ -4,10 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,10 +27,17 @@ public class Game extends AppCompatActivity
 
 	private Box[][] box;
 
+	Context context;
+
 	private Piece nextPiece = new Piece();
 	private Piece currentPiece = new Piece();
 
-	private MediaPlayer musique;
+	//private MediaPlayer musique;
+
+	private MediaPlayer move;
+	private MediaPlayer rotate;
+	private MediaPlayer line;
+	private MediaPlayer down;
 
 	private BoardView gameBoard;
 
@@ -45,7 +50,6 @@ public class Game extends AppCompatActivity
 	private ImageView button0;
 	private ImageView button1;
 	private ImageView button2;
-	private ImageView nextPieceImg;
 
 
 	private ImageView pièce0;
@@ -70,6 +74,8 @@ public class Game extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.game);
+
+		context = getApplicationContext();
 
 		btnPause = (TextView) findViewById(R.id.buttonPause);
 
@@ -103,9 +109,14 @@ public class Game extends AppCompatActivity
 
 		game = true;
 
-		musique = MediaPlayer.create(this, R.raw.music);
-		musique.setLooping(true);
-		musique.start();
+		//musique = MediaPlayer.create(this, R.raw.music);
+		//musique.setLooping(true);
+		//musique.start();
+
+		down = MediaPlayer.create(this, R.raw.down);
+		line = MediaPlayer.create(this, R.raw.line);
+		move = MediaPlayer.create(this, R.raw.move);
+		rotate = MediaPlayer.create(this, R.raw.rotate);
 
 		textScore.setText("0");
 		niveau.setText("0");
@@ -129,7 +140,7 @@ public class Game extends AppCompatActivity
 	protected void onPause() {
 		super.onPause();
 		game = false;
-		musique.stop();
+		//musique.stop();
 		btnPause.setText(R.string.resume);
 
 	}
@@ -138,7 +149,7 @@ public class Game extends AppCompatActivity
 	protected void onStop() {
 		super.onStop();
 		game = false;
-		musique.stop();
+		//musique.stop();
 	}
 
 	private void board() {
@@ -177,16 +188,18 @@ public class Game extends AppCompatActivity
 	@Override
 	public void onClick(View v) {
 
-
+Context context = getApplicationContext();
 		switch (v.getId()) {
 
 			case R.id.ButtonMoveR:
+				move.start();
 				unDraw();
 				currentPiece.moveRight();
 				reDraw();
 				break;
 
 			case R.id.ButtonMoveL:
+				move.start();
 				unDraw();
 				currentPiece.moveLeft();
 				reDraw();
@@ -195,6 +208,7 @@ public class Game extends AppCompatActivity
 			case R.id.ButtonMoveD:
 				unDraw();
 				currentPiece.moveDown();
+				move.start();
 				reDraw();
 
 				// long press
@@ -203,12 +217,14 @@ public class Game extends AppCompatActivity
 				break;
 
 			case R.id.buttonRotateR:
+				rotate.start();
 				unDraw();
 				currentPiece.rotateRight();
 				reDraw();
 				break;
 
 			case R.id.ButtonRotateL:
+				rotate.start();
 				unDraw();
 				currentPiece.rotateLeft();
 				reDraw();
@@ -218,11 +234,11 @@ public class Game extends AppCompatActivity
 				if (game) {
 					game = false;
 					btnPause.setText(R.string.resume);
-					musique.pause();
+					//musique.pause();
 				} else {
 					game = true;
 					btnPause.setText(R.string.pause);
-					musique.start();
+					//musique.start();
 				}
 				break;
 
@@ -260,6 +276,7 @@ public class Game extends AppCompatActivity
 
 					unDraw();
 					currentPiece.moveDown();
+
 					reDraw();
 
 					score = score + 1;
@@ -294,6 +311,7 @@ public class Game extends AppCompatActivity
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
 
+				down.start();
 				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
 				for (int i = 0; i < 20; i++)
 					for (int j = 0; j < 10; j++){
@@ -468,6 +486,7 @@ public class Game extends AppCompatActivity
 
 	private void removeRow(int row){
 
+		line.start();
 
 		score = score + Values.SCORE_PER_ROW * combo;
 
