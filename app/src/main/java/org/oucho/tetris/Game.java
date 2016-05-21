@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -123,11 +122,9 @@ public class Game extends AppCompatActivity
 
 	}
 
-	   /* **********************************************************************************************
+	/* **********************************************************************************************
     * Pause, resume etc.
     * *********************************************************************************************/
-
-
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -144,13 +141,15 @@ public class Game extends AppCompatActivity
 		//musique.stop();
 	}
 
+
 	private void board() {
+
 
 		//Get measures for the board
 		Point size = new Point();
 		this.getWindowManager().getDefaultDisplay().getSize(size);
-		int width = (int) (size.x * 0.7);
-		int height = (int) (size.y * 0.8);
+		int width = (int) (size.x * 0.73);
+		int height = (int) (size.y * 0.83);
 
 		int d = (int) (width * 0.85 / 10);
 

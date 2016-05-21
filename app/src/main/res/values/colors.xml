@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#474b4e</color>
-    <color name="colorPrimaryDark">#333638</color>
-    <color name="colorAccent">#ec9e24</color>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#f9a825</color>
 
 
 
     <color name="alpha">#00000000</color>
 
 
-    <color name="bord_tableau">#474b4e</color>
+    <color name="dark_grey">#212121</color>
 
 </resources>

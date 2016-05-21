@@ -57,7 +57,7 @@ public class GameBoard extends View {
 
         // gauche
         while (i < 40) {
-            wall[i] = ContextCompat.getDrawable(context, R.color.bord_tableau);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             y = y + side / 2;
             i = i + 1;
@@ -69,7 +69,7 @@ public class GameBoard extends View {
 
         // droite
         while (i < 80) {
-            wall[i] = ContextCompat.getDrawable(context, R.color.bord_tableau);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             y = y + side / 2;
             i = i + 1;
@@ -79,7 +79,7 @@ public class GameBoard extends View {
 
         // bas
         while (i < 102) {
-            wall[i] = ContextCompat.getDrawable(context, R.color.bord_tableau);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             x = x + side / 2;
             i = i + 1;
@@ -94,7 +94,6 @@ public class GameBoard extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
 
 
         try {
