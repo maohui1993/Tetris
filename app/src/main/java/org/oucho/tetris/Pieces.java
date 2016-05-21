@@ -3,17 +3,16 @@ package org.oucho.tetris;
 import java.util.Random;
 
 
-
-class Piece {
+class Pieces {
 
 	//The type of the piece, the shape.
-	final byte type;
+	public final byte type;
 	
 	//The color of the piece. It depends on the type
 	private final byte color;
 	
 	//Array of boxes occupied by the piece
-	final boolean[][] box;
+	public final boolean[][] box;
 	
 	//Array of the boxes in board occupied in the game board
 	private final boolean[][] board;
@@ -26,10 +25,11 @@ class Piece {
 	public byte getColor(){
 		return color;
 	}
-	
 
 
-	Piece() {
+
+
+	public Pieces() {
 		Random generator = new Random();
 
 		byte aleatoire = 0;
@@ -161,7 +161,7 @@ class Piece {
 
 
 
-		return true;							//Piece moved!
+		return true;							//Pieces moved!
 	}
 
 
@@ -184,7 +184,7 @@ class Piece {
 
 		for (int i = 0; i < 20; i++)			//Copy the auxiliary array to the piece array
 			System.arraycopy(aux[i], 0, box[i], 0, 10);
-		return true;//Piece moved!
+		return true;//Pieces moved!
 	}
 	
 	//Called when a piece is going to be moved. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
@@ -204,7 +204,7 @@ class Piece {
         	}
 		for (int i = 0; i < 20; i++)			//Copy the auxiliary array to the piece array
 			System.arraycopy(aux[i], 0, box[i], 0, 10);
-		return true;							//Piece moved!
+		return true;							//Pieces moved!
 	}
 
 
@@ -221,7 +221,6 @@ class Piece {
 			case Values.PIECE_0:
 				//Switch next rotation state
 				switch (rotation + 1){
-
 
 					case 4:
 					case 2: //From horizontal to vertical

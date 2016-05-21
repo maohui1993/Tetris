@@ -2,7 +2,7 @@
     <string name="app_name">Tetris</string>
 
 
-    <string name="exit">Exit</string>
+    <string name="exit">Quitter</string>
     <string name="score">Score: </string>
 
     <string name="pause">Pause</string>
@@ -13,26 +13,8 @@
     <string name="first">"1er"</string>
     <string name="second">"2ème"</string>
     <string name="third">"3ème"</string>
-    <string name="nohscores">"No scores"</string>
-    <string name="preferences">"Preferences"</string>
-    <string name="preferencesSound">Sound</string>
-    <string name="preferencesSoundFX">FX sounds</string>
-    <string name="preferencesSoundFXEnabled">Sound efects enabled</string>
-    <string name="preferencesSoundFXDisabled">Sound efects disabled</string>
-    <string name="preferencesSoundMusic">Music</string>
-    <string name="preferencesSoundMusicEnabled">Music enabled</string>
-    <string name="preferencesSoundMusicDisabled">Music disabled</string>
-    <string name="preferencesGame">Game</string>
-    <string name="preferencesGameVibration">Vibration</string>
-    <string name="preferencesGameVibrationChecked">Vibrate</string>
-    <string name="preferencesGameVibrationUnchecked">Don\'t vibrate</string>
-    <string name="preferencesGameBackgrounds">Show board background</string>
-    <string name="preferencesGameBackgroundsChecked">Show</string>
-    <string name="preferencesGameBackgroundsUnchecked">Dont show</string>
-    <string name="preferencesScreen">Screen</string>
-    <string name="preferencesScreenKeepOn">Keep on</string>
-    <string name="preferencesScreenKeepOnChecked">Screen will not lock</string>
-    <string name="preferencesScreenKeepOnUnchecked">Screen will lock as usually</string>
+    <string name="nohscores">"Auncun scores"</string>
+
 
     <string name="about">A propos</string>
 

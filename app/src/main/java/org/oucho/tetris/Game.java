@@ -21,16 +21,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
 public class Game extends AppCompatActivity
 		implements OnClickListener {
 
 	private Box[][] box;
 
-	Context context;
 
-	private Piece nextPiece = new Piece();
-	private Piece currentPiece = new Piece();
+	private Pieces nextPiece = new Pieces();
+	private Pieces currentPiece = new Pieces();
 
 	//private MediaPlayer musique;
 
@@ -39,7 +37,7 @@ public class Game extends AppCompatActivity
 	private MediaPlayer line;
 	private MediaPlayer down;
 
-	private BoardView gameBoard;
+	private GameBoard gameBoard;
 
 	private TextView btnPause;
 
@@ -48,8 +46,6 @@ public class Game extends AppCompatActivity
 	private TextView textScore;
 
 	private ImageView button0;
-	private ImageView button1;
-	private ImageView button2;
 
 
 	private ImageView pièce0;
@@ -75,17 +71,13 @@ public class Game extends AppCompatActivity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.game);
 
-		context = getApplicationContext();
 
 		btnPause = (TextView) findViewById(R.id.buttonPause);
 
-		gameBoard = (BoardView) findViewById(R.id.GameView);
+		gameBoard = (GameBoard) findViewById(R.id.GameView);
 
 		button0 = (ImageView) findViewById(R.id.ButtonMoveD);
-		button1 = (ImageView) findViewById(R.id.ButtonMoveL);
-		button2 = (ImageView) findViewById(R.id.ButtonMoveR);
 
-		//nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
 
 		pièce0 = (ImageView) findViewById(R.id.pièce0);
 		pièce1 = (ImageView) findViewById(R.id.pièce1);
@@ -153,28 +145,34 @@ public class Game extends AppCompatActivity
 	}
 
 	private void board() {
+
 		//Get measures for the board
 		Point size = new Point();
 		this.getWindowManager().getDefaultDisplay().getSize(size);
 		int width = (int) (size.x * 0.7);
-		int height = (int) (size.y * 0.9);
+		int height = (int) (size.y * 0.8);
 
 		int d = (int) (width * 0.85 / 10);
 
 		//Initialize boxes and draw the wall
 		box = new Box[20][10];
+
 		int x = (int) (width * 0.05);
 		int y = (int) (height * 0.05);
+
 		gameBoard.createWall(x, y, d);
 
 
 		for (int i = 0; i < 20; i++){
+
 			x = (int) (width * 0.05);
+
 			for (int j = 0; j < 10; j++){
 				box[i][j] = new Box();
 				gameBoard.initialize(i, j, x, y, d);
 				x = x + d;
 			}
+
 			y = y + d;
 		}
 	}
@@ -188,7 +186,6 @@ public class Game extends AppCompatActivity
 	@Override
 	public void onClick(View v) {
 
-Context context = getApplicationContext();
 		switch (v.getId()) {
 
 			case R.id.ButtonMoveR:
@@ -283,7 +280,7 @@ Context context = getApplicationContext();
 
 					textScore.setText(Integer.toString(score));
 
-					mHandler.postDelayed(this, 10);
+					mHandler.postDelayed(this, 20);
 				}
 			};
 		});
@@ -331,7 +328,7 @@ Context context = getApplicationContext();
 				currentPiece = nextPiece;
 				currentPiece.start();
 
-				nextPiece = new Piece();
+				nextPiece = new Pieces();
 
 				//Set the next piece image
 				setImgs();
@@ -578,7 +575,7 @@ Context context = getApplicationContext();
 			timer(200);
 			niveau.setText("8");
 
-		} else if (ligne >= 90 && ligne < 90) {
+		} else if (ligne >= 90) {
 			timer.cancel();
 			timer(100);
 			niveau.setText("9");

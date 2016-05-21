@@ -7,6 +7,8 @@
     android:baselineAligned="false"
     android:id="@+id/linearLayoutMain">
 
+
+
     <LinearLayout
         android:id="@+id/linearLayoutScreen"
         android:layout_width="fill_parent"
@@ -23,12 +25,12 @@
             android:layout_weight=".3"
             android:layout_marginLeft="15dp">
 
-            <org.oucho.tetris.BoardView
+            <org.oucho.tetris.GameBoard
                 android:id="@+id/GameView"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
-                android:paddingTop="45dp">
-            </org.oucho.tetris.BoardView>
+                android:paddingTop="25dp">
+            </org.oucho.tetris.GameBoard>
 
         </LinearLayout>
 
@@ -73,7 +75,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece0"
+                    android:src="@drawable/piece01"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -83,7 +85,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece1"
+                    android:src="@drawable/piece11"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -93,7 +95,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece2"
+                    android:src="@drawable/piece21"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -103,7 +105,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece3"
+                    android:src="@drawable/piece31"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -113,7 +115,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece4"
+                    android:src="@drawable/piece41"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -123,7 +125,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece5"
+                    android:src="@drawable/piece51"
                     android:visibility="invisible"/>
 
                 <ImageView
@@ -133,7 +135,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/piece6"
+                    android:src="@drawable/piece61"
                     android:visibility="invisible"/>
 
             </android.support.v7.widget.CardView>
@@ -258,7 +260,8 @@
         android:id="@+id/linearLayoutButtons"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight=".7">
+        android:background="@color/colorPrimaryDark"
+        android:layout_weight=".5">
 
         <!-- I know that Nested weights are bad for performance, I know -->
         <ImageView
@@ -266,36 +269,47 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:src="@drawable/ic_rotate_left_black_36dp"/>
+            android:src="@drawable/ic_rotate_left_black_36dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:id="@+id/ButtonMoveL"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:src="@drawable/ic_keyboard_arrow_left_black_36dp"/>
+            android:src="@drawable/ic_keyboard_arrow_left_black_36dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:id="@+id/ButtonMoveD"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:src="@drawable/ic_keyboard_arrow_down_black_36dp"/>
+            android:src="@drawable/ic_keyboard_arrow_down_black_36dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:id="@+id/ButtonMoveR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:src="@drawable/ic_keyboard_arrow_right_black_36dp"/>
+            android:src="@drawable/ic_keyboard_arrow_right_black_36dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:id="@+id/buttonRotateR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:src="@drawable/ic_rotate_right_black_36dp"/>
+            android:src="@drawable/ic_rotate_right_black_36dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
+
 
 </LinearLayout>

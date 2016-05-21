@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity
@@ -66,37 +63,6 @@ public class MainActivity extends AppCompatActivity
     private void showAboutDialog(){
         AboutDialog dialog = new AboutDialog();
         dialog.show(getSupportFragmentManager(), "about");
-    }
-
-    /*************************************************/
-	/* Create the options menu ***********************/
-    /*************************************************/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.initmenu, menu);
-        return true;
-    }
-
-    /*************************************************/
-	/* Set actions for each menu element *************/
-    /*************************************************/
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent;
-        intent = new Intent();
-        switch(item.getItemId()){
-
-            case R.id.menuItemPreferences:
-                intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.Preferences"));
-                break;
-
-            default:
-                break;
-        }
-        startActivity(intent);
-        return true;
     }
 
 }

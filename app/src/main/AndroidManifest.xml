@@ -33,11 +33,6 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity
-            android:name=".Preferences"
-            android:screenOrientation="portrait">
-        </activity>
-
     </application>
 
 </manifest>

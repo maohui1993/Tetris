@@ -4,15 +4,11 @@
     <color name="colorPrimaryDark">#333638</color>
     <color name="colorAccent">#ec9e24</color>
 
-    <color name="background">#424242</color>
 
-<!--    <color name="blue">#3F51B5</color>
-    <color name="cyan">#26c6da</color>
-    <color name="green">#00c853</color>
-    <color name="orange">#ef6c00</color>
-    <color name="purple">#7b1fa2</color>
-    <color name="red">#d50000</color>
-    <color name="yellow">#ffe100</color>-->
 
+    <color name="alpha">#00000000</color>
+
+
+    <color name="bord_tableau">#474b4e</color>
 
 </resources>
