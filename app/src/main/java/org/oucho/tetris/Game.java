@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,21 +29,20 @@ public class Game extends AppCompatActivity
 	private Pieces nextPiece = new Pieces();
 	private Pieces currentPiece = new Pieces();
 
-	private MediaPlayer soundMove;
-	private MediaPlayer soundRotate;
-	private MediaPlayer soundLine;
-	private MediaPlayer soundDown;
+
+	private CountDownTimer timer;
 
 	private GameBoard gameBoard;
 
-	private TextView btnPause;
+	private MediaPlayer soundMove;
+	private MediaPlayer soundLine;
+	private MediaPlayer soundDown;
+	private MediaPlayer soundRotate;
 
 	private TextView niveau;
+	private TextView btnPause;
 	private TextView nbLignes;
 	private TextView textScore;
-
-	private ImageView button0;
-
 
 	private ImageView pièce0;
 	private ImageView pièce1;
@@ -51,14 +51,22 @@ public class Game extends AppCompatActivity
 	private ImageView pièce4;
 	private ImageView pièce5;
 	private ImageView pièce6;
-
+	private ImageView button0;
 
 	private int score = 0;
 	private int combo = 1;
 	private int ligne = 0;
 
+	private final int[] bouton_ID = {
+			R.id.buttonPause,
+			R.id.ButtonMoveR,
+			R.id.ButtonMoveL,
+			R.id.ButtonMoveD,
+			R.id.buttonRotateR,
+			R.id.ButtonRotateL
+	};
+
 	private boolean game;
-	private CountDownTimer timer;
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
@@ -88,12 +96,9 @@ public class Game extends AppCompatActivity
 		textScore = (TextView) findViewById(R.id.TextViewScore);
 
 
-		this.findViewById(R.id.buttonPause).setOnClickListener(this);
-		this.findViewById(R.id.ButtonMoveR).setOnClickListener(this);
-		this.findViewById(R.id.ButtonMoveL).setOnClickListener(this);
-		this.findViewById(R.id.ButtonMoveD).setOnClickListener(this);
-		this.findViewById(R.id.buttonRotateR).setOnClickListener(this);
-		this.findViewById(R.id.ButtonRotateL).setOnClickListener(this);
+		for(int ID : bouton_ID)
+			this.findViewById(ID).setOnClickListener(this);
+
 
 		game = true;
 
@@ -137,7 +142,9 @@ public class Game extends AppCompatActivity
 
 		//Get measures for the board
 		Point size = new Point();
+
 		this.getWindowManager().getDefaultDisplay().getSize(size);
+
 		int width = (int) (size.x * 0.73);
 		int height = (int) (size.y * 0.83);
 
@@ -157,6 +164,7 @@ public class Game extends AppCompatActivity
 			x = (int) (width * 0.05);
 
 			for (int j = 0; j < 10; j++){
+
 				box[i][j] = new Box();
 				gameBoard.initialize(i, j, x, y, d);
 				x = x + d;
@@ -178,57 +186,83 @@ public class Game extends AppCompatActivity
 		switch (v.getId()) {
 
 			case R.id.ButtonMoveR:
-				soundMove.start();
 
-				unDraw();
-				currentPiece.moveRight();
-				reDraw();
+				if (game) {
+					soundMove.start();
+
+					unDraw();
+					currentPiece.moveRight();
+					reDraw();
+				}
+
 				break;
 
 			case R.id.ButtonMoveL:
-				soundMove.start();
 
-				unDraw();
-				currentPiece.moveLeft();
-				reDraw();
+				if (game) {
+
+					soundMove.start();
+
+					unDraw();
+					currentPiece.moveLeft();
+					reDraw();
+				}
+
 				break;
 
 			case R.id.ButtonMoveD:
-                soundMove.start();
 
-                unDraw();
-				currentPiece.moveDown();
-				reDraw();
+				if (game) {
 
-				// long press
-				down();
+					soundMove.start();
+
+					unDraw();
+					currentPiece.moveDown();
+					reDraw();
+
+					// long press
+					down();
+				}
 
 				break;
 
 			case R.id.buttonRotateR:
-				soundRotate.start();
-				unDraw();
-				currentPiece.rotateRight();
-				reDraw();
+
+				if (game) {
+
+					soundRotate.start();
+					unDraw();
+					currentPiece.rotateRight();
+					reDraw();
+				}
+
 				break;
 
 			case R.id.ButtonRotateL:
-                soundRotate.start();
-				unDraw();
-				currentPiece.rotateLeft();
-				reDraw();
+
+				if (game) {
+
+					soundRotate.start();
+					unDraw();
+					currentPiece.rotateLeft();
+					reDraw();
+				}
+
 				break;
 
 			case R.id.buttonPause:
+
 				if (game) {
+
 					game = false;
 					btnPause.setText(R.string.resume);
-					//musique.pause();
+
 				} else {
+
 					game = true;
 					btnPause.setText(R.string.pause);
-					//musique.start();
 				}
+
 				break;
 
 			default:
@@ -483,7 +517,6 @@ public class Game extends AppCompatActivity
 			for (int j = 0; j < 10; j++){
 				box[i][j].setColor(box[i - 1][j].getColor());
 				gameBoard.setColor(i, j, (byte) box[i - 1][j].getColor());
-
 			}
 
 
@@ -491,7 +524,6 @@ public class Game extends AppCompatActivity
 		speed();
 
 	}
-
 
 
 	/* *********************************************************************************************
@@ -672,6 +704,7 @@ public class Game extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int id) {
 
                         dialog.cancel();
+						mpRelease();
                         finish();
                     }
                 })
@@ -690,5 +723,23 @@ public class Game extends AppCompatActivity
 		} catch (Exception ignored) {}
 	}
 
+	/***********************************************************************************************
+	 * Touche retour
+	 **********************************************************************************************/
+
+	@Override
+	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
+
+		mpRelease();
+
+		return super.onKeyDown(keyCode, event);
+	}
+
+	private void mpRelease() {
+		soundMove.release();
+		soundLine.release();
+		soundDown.release();
+		soundRotate.release();
+	}
 
 }

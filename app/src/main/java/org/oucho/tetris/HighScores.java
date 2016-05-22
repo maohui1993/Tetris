@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class HighScores extends AppCompatActivity {
 	
 
+	@SuppressWarnings("ConstantConditions")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
