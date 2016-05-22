@@ -25,11 +25,8 @@ public class Game extends AppCompatActivity
 
 	private Box[][] box;
 
-
 	private Pieces nextPiece = new Pieces();
 	private Pieces currentPiece = new Pieces();
-
-	//private MediaPlayer musique;
 
 	private MediaPlayer move;
 	private MediaPlayer rotate;
@@ -100,10 +97,6 @@ public class Game extends AppCompatActivity
 
 		game = true;
 
-		//musique = MediaPlayer.create(this, R.raw.music);
-		//musique.setLooping(true);
-		//musique.start();
-
 		down = MediaPlayer.create(this, R.raw.down);
 		line = MediaPlayer.create(this, R.raw.line);
 		move = MediaPlayer.create(this, R.raw.move);
@@ -118,9 +111,9 @@ public class Game extends AppCompatActivity
 		timer(1000);
 
 		currentPiece.start();
-
-
 	}
+
+
 
 	/* **********************************************************************************************
     * Pause, resume etc.
@@ -129,16 +122,13 @@ public class Game extends AppCompatActivity
 	protected void onPause() {
 		super.onPause();
 		game = false;
-		//musique.stop();
 		btnPause.setText(R.string.resume);
-
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 		game = false;
-		//musique.stop();
 	}
 
 
@@ -289,22 +279,14 @@ public class Game extends AppCompatActivity
 
 
 
+	/* ************************************************
+	 * Main time bucle
+	 * ************************************************/
 
-
-	/*************************************************/
-	/* Main time bucle *******************************/
-	/*************************************************/
-	/* Checks the game state (ongoing, paused, *******/ 
-	/* ended... On each bucle, it tries to move the **/
-	/* current piece down. If its imposible, it ******/
-	/* checks for filled rows, updates the combo flag /
-	/* if necessary, and check if the game is loose, */
-	/* otherwise it initiates a new piece ************/
-	/*************************************************/
 	private void gameAction(){
 		if (game){
 
-			unDraw(); 												//Undraw the current piece
+			unDraw();
 
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
@@ -440,16 +422,9 @@ public class Game extends AppCompatActivity
 	}
 
 
-	/*************************************************/
-	/* Checks for filled rows ***********/
-	/*************************************************/
-	/* Check if some row is filled. If there is some */
-	/* it calls to removeRow(), that will remove the */
-    /* row and increase score. ***********************/
-	/* This function returns a boolean indicating if */
-	/* something has been removed, to keep track of  */
-	/* the combo multiplier. *************************/
-	/*************************************************/
+	/* ************************************************
+	 * Checks for filled rows
+	 * ************************************************/
 	private boolean lookForRows(){
 
 		boolean somethingRemoved = false; //To determine if some row has been removed to keep the combo
@@ -477,11 +452,9 @@ public class Game extends AppCompatActivity
 
 
 
-	/*************************************************/
-	/* Removes the row passed as argument ************/
-	/*************************************************/
-
-
+	/* ************************************************
+	 * Removes the row passed as argument
+	 * ************************************************/
 	private void removeRow(int row){
 
 		line.start();
@@ -621,25 +594,6 @@ public class Game extends AppCompatActivity
 	}
 
 
-
-	/*************************************************/
-	/* On finish activity ****************************/
-	/*************************************************/
-	/* Saves the game if it's running. Otherwise it **/
-	/* deletes last saved game ***********************/
-	/*************************************************/
-/*	@Override
-	public void onDestroy(){ //TODO: Implement. Check back button behavior
-		if (game){ //If the game is running. //TODO: Check behavior when game is paused
-			//Save state of all boxes
-			//Save current piece
-			//Save next piece
-			//Save score
-			//Save combo
-			game = false; //Actually pauses the game
-			super.onDestroy();
-		}
-	}*/
 
 	/*************************************************/
 	/* Checks if the current game is loose************/
