@@ -1,5 +1,6 @@
 package org.oucho.tetris;
 
+import android.util.Log;
 import java.util.Random;
 
 
@@ -305,6 +306,7 @@ class Pieces {
 				}
 				break;
 
+            // L inversé
 			case Values.PIECE_1:
 				//Switch new rotation state
 				switch (rotation + 1){
@@ -422,6 +424,7 @@ class Pieces {
 				}
 				break;
 
+            // L
 			case Values.PIECE_2:
 				//Switch new rotation state
 				switch (rotation + 1){
@@ -494,25 +497,37 @@ class Pieces {
 								i++;
 							}
 						}
+
 						//Check availability
 						if (i == 18)
+                            return false;
+
+
+                        if (i == 19)
 							return false;
 
-						if (i == 19)
-							return false;
+                        // rustine:  java.lang.ArrayIndexOutOfBoundsException: length=20; index=20
+                        try {
+                            if (board[i + i][j + 2])
+                                return false;
+                        } catch (Exception ignored) {}
 
-						if (board[i + i][j + 2])
-							return false;
+                        Log.d("\\_o< coin", "4");
 
-						if (board[i + 2][j + 2])
+
+                        if (board[i + 2][j + 2])
 							return false;
+                        Log.d("\\_o< coin", "5");
 
 						//Perform transformation
 						box[i + 1][j + 2] = true;
 						box[i + 2][j + 2] = true;
 						box[i][j] = false;
 						box[i + 1][j] = false;
-						break;
+
+                        Log.d("\\_o< coin", "6");
+
+                        break;
 
 					case 4: //From vertical top-side-left to horizontal right-side-up
 						//Find the first occupied box

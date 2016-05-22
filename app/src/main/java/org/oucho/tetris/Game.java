@@ -28,10 +28,10 @@ public class Game extends AppCompatActivity
 	private Pieces nextPiece = new Pieces();
 	private Pieces currentPiece = new Pieces();
 
-	private MediaPlayer move;
-	private MediaPlayer rotate;
-	private MediaPlayer line;
-	private MediaPlayer down;
+	private MediaPlayer soundMove;
+	private MediaPlayer soundRotate;
+	private MediaPlayer soundLine;
+	private MediaPlayer soundDown;
 
 	private GameBoard gameBoard;
 
@@ -97,10 +97,10 @@ public class Game extends AppCompatActivity
 
 		game = true;
 
-		down = MediaPlayer.create(this, R.raw.down);
-		line = MediaPlayer.create(this, R.raw.line);
-		move = MediaPlayer.create(this, R.raw.move);
-		rotate = MediaPlayer.create(this, R.raw.rotate);
+		soundDown = MediaPlayer.create(this, R.raw.down);
+        soundLine = MediaPlayer.create(this, R.raw.line);
+        soundMove = MediaPlayer.create(this, R.raw.move);
+        soundRotate = MediaPlayer.create(this, R.raw.rotate);
 
 		textScore.setText("0");
 		niveau.setText("0");
@@ -178,23 +178,26 @@ public class Game extends AppCompatActivity
 		switch (v.getId()) {
 
 			case R.id.ButtonMoveR:
-				move.start();
+				soundMove.start();
+
 				unDraw();
 				currentPiece.moveRight();
 				reDraw();
 				break;
 
 			case R.id.ButtonMoveL:
-				move.start();
+				soundMove.start();
+
 				unDraw();
 				currentPiece.moveLeft();
 				reDraw();
 				break;
 
 			case R.id.ButtonMoveD:
-				unDraw();
+                soundMove.start();
+
+                unDraw();
 				currentPiece.moveDown();
-				move.start();
 				reDraw();
 
 				// long press
@@ -203,14 +206,14 @@ public class Game extends AppCompatActivity
 				break;
 
 			case R.id.buttonRotateR:
-				rotate.start();
+				soundRotate.start();
 				unDraw();
 				currentPiece.rotateRight();
 				reDraw();
 				break;
 
 			case R.id.ButtonRotateL:
-				rotate.start();
+                soundRotate.start();
 				unDraw();
 				currentPiece.rotateLeft();
 				reDraw();
@@ -291,7 +294,7 @@ public class Game extends AppCompatActivity
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
 
-				down.start();
+				soundDown.start();
 				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
 				for (int i = 0; i < 20; i++)
 					for (int j = 0; j < 10; j++){
@@ -457,7 +460,7 @@ public class Game extends AppCompatActivity
 	 * ************************************************/
 	private void removeRow(int row){
 
-		line.start();
+		soundLine.start();
 
 		score = score + Values.SCORE_PER_ROW * combo;
 
@@ -577,12 +580,12 @@ public class Game extends AppCompatActivity
 
 
 
-	/*************************************************/
-	/* Clears the piece being played *****************/
-	/*************************************************/
-	/* Clears cubes in the positions occupied by the */
-	/* current piece. Should be called befors draw() */
-	/*************************************************/
+	/* ************************************************
+	 * Clears the piece being played
+	 * ************************************************
+	 * Clears cubes in the positions occupied by the
+	 * current piece. Should be called befors draw()
+	 * ************************************************/
 	private void unDraw(){
 		for (int i = 0; i < 20; i++)
 			for (int j = 0; j < 10; j++){
@@ -595,11 +598,9 @@ public class Game extends AppCompatActivity
 
 
 
-	/*************************************************/
-	/* Checks if the current game is loose************/
-	/*************************************************/
-
-
+	/* ************************************************
+	 * Checks if the current game is loose
+	 * ************************************************/
 	private void checkGameLoose() {
 		int hScore1, hScore2, hScore3, aux;
 
@@ -662,17 +663,26 @@ public class Game extends AppCompatActivity
 		//TODO:Show a trophy icon if high score
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.gameover);
-		String msg = getString(R.string.score)+ Integer.toString(score);
-		builder.setMessage(msg)
-				.setCancelable(false)
-				//A button to just quit. Finishes the activity, so the user returns to the main menu
-				.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-						finish();
-					}
-				});
+		String msg = getString(R.string.score1)+ " " + Integer.toString(score);
 
+        builder.setMessage(msg)
+                .setCancelable(false)
+
+                .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                        finish();
+                    }
+                })
+
+                .setPositiveButton(R.string.newgame, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
 
 		AlertDialog endGameAlert = builder.create();
 		try {

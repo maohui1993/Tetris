@@ -3,10 +3,12 @@
 
 
     <string name="exit">Quitter</string>
-    <string name="score">Score: </string>
+    <string name="score1">Score:</string>
+    <string name="ok">OK</string>
 
     <string name="pause">Pause</string>
     <string name="resume">Reprendre</string>
+
 
     <string name="newgame">Nouvelle partie</string>
     <string name="score0">Scores</string>
