@@ -8,6 +8,9 @@
     <string name="pause">Pause</string>
     <string name="resume">Reprendre</string>
 
+    <string name="newgame">Nouvelle partie</string>
+    <string name="score0">Scores</string>
+
     <string name="gameover">Game over</string>
 
     <string name="first">"1er"</string>
