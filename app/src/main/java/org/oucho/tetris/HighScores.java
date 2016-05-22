@@ -13,22 +13,20 @@ public class HighScores extends AppCompatActivity {
 	
 
 	public void onCreate(Bundle savedInstanceState) {
-		
+		super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.highscores);
 
 		TextView hs1, hs2, hs3;
 
 		TextView hs1d, hs2d, hs3d;
 
 		ImageView trophy1, trophy2, trophy3;
-		
+
 
 		SharedPreferences highScores;
-		
 
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.highscores);
-        
+		setTitle("Scores");
 
         hs1 = (TextView) findViewById(R.id.textViewHighScore1);
         hs2 = (TextView) findViewById(R.id.textViewHighScore2);

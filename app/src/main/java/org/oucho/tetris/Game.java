@@ -244,26 +244,28 @@ public class Game extends AppCompatActivity
 	}
 
 
-    private Handler mHandler;
-
 	private void down() {
 
 		button0.setOnTouchListener(new View.OnTouchListener() {
 
+            private Handler mHandler;
 
 			@Override public boolean onTouch(View v, MotionEvent event) {
 
 				switch(event.getAction()) {
+
 					case MotionEvent.ACTION_DOWN:
 						if (mHandler != null) return true;
 						mHandler = new Handler();
 						mHandler.postDelayed(mAction, 500);
 						break;
+
 					case MotionEvent.ACTION_UP:
 						if (mHandler == null) return true;
 						mHandler.removeCallbacks(mAction);
 						mHandler = null;
 						break;
+
 				}
 				return false;
 			}
@@ -273,7 +275,6 @@ public class Game extends AppCompatActivity
 
 					unDraw();
 					currentPiece.moveDown();
-
 					reDraw();
 
 					score = score + 1;
