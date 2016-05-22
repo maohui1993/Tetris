@@ -244,11 +244,12 @@ public class Game extends AppCompatActivity
 	}
 
 
+    private Handler mHandler;
 
 	private void down() {
 
 		button0.setOnTouchListener(new View.OnTouchListener() {
-			private Handler mHandler;
+
 
 			@Override public boolean onTouch(View v, MotionEvent event) {
 
@@ -642,10 +643,15 @@ public class Game extends AppCompatActivity
 	/*************************************************/
 	/* Checks if the current game is loose************/
 	/*************************************************/
+
+
 	private void checkGameLoose() {
 		int hScore1, hScore2, hScore3, aux;
+
 		String hScore1Date, hScore2Date, hScore3Date;
+
 		boolean loose = false;
+
 		for (int j = 0; j < 10; j++)
 			if (box[1][j].getColor() != Values.COLOR_NONE)
 				loose = true;
@@ -654,7 +660,7 @@ public class Game extends AppCompatActivity
 		//If I get here, the game is loose. Game state variable is set to false
 		game = false;
 
-		//TODO: See line above
+
 
 		//Add high scores if needed
 		SharedPreferences highScores = getSharedPreferences("highScores", 0);
@@ -664,7 +670,9 @@ public class Game extends AppCompatActivity
 		hScore1Date = highScores.getString("hScore1Date", "0");
 		hScore2Date = highScores.getString("hScore2Date", "0");
 		hScore3Date = highScores.getString("hScore3Date", "0");
+
 		Calendar currentDate = Calendar.getInstance();
+
 		Date dateNow = currentDate.getTime();
 
 		if(score > hScore3){
@@ -694,6 +702,7 @@ public class Game extends AppCompatActivity
 		editor.putString("hScore2Date", hScore1Date);
 		editor.putString("hScore3Date", hScore1Date);
 		editor.commit();
+
 		//Show dialog showing score
 		//TODO:Show a trophy icon if high score
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -709,16 +718,6 @@ public class Game extends AppCompatActivity
 					}
 				});
 
-		//A button to just share score with an external app
-//				.setPositiveButton(R.string.shareScore, new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//						shareIntent.setType("text/plain");
-//						shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareScore1) + " " + Integer.toString(score) + " " + getString(R.string.shareScore2));
-//						shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-//						startActivity(Intent.createChooser(shareIntent, getString(R.string.shareScoreSelector)));
-//					}
-//				});
 
 		AlertDialog endGameAlert = builder.create();
 		try {

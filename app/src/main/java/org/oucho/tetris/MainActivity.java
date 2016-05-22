@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
                 intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.Game"));
                 startActivity(intent);
                 intro.stop();
+                intro.release();
                 break;
 
             case R.id.buttonHighScores:
