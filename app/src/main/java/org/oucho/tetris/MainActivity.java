@@ -28,6 +28,20 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /* **********************************************************************************************
+* Pause, resume etc.
+* *********************************************************************************************/
+    @Override
+    protected void onPause() {
+        super.onPause();
+        intro.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        intro.stop();
+    }
 
     @Override
     public void onClick(View v) {
