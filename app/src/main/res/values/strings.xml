@@ -14,10 +14,14 @@
 
     <string name="gameover">Game over</string>
 
-    <string name="first">"1er"</string>
+    <string name="premier">"1er"</string>
     <string name="second">"2ème"</string>
-    <string name="third">"3ème"</string>
-    <string name="nohscores">"Auncun scores"</string>
+    <string name="troisième">"3ème"</string>
+    <string name="quatrième">"4ème"</string>
+    <string name="cinquième">"5ème"</string>
+
+
+    <string name="nohscores">"Aucun scores"</string>
 
 
     <string name="about">A propos</string>

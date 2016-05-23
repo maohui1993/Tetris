@@ -57,7 +57,7 @@ public class GameBoard extends View {
 
         // gauche
         while (i < 40) {
-            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.wall_brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             y = y + side / 2;
             i = i + 1;
@@ -69,7 +69,7 @@ public class GameBoard extends View {
 
         // droite
         while (i < 80) {
-            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.wall_brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             y = y + side / 2;
             i = i + 1;
@@ -79,7 +79,7 @@ public class GameBoard extends View {
 
         // bas
         while (i < 102) {
-            wall[i] = ContextCompat.getDrawable(context, R.drawable.brick);
+            wall[i] = ContextCompat.getDrawable(context, R.drawable.wall_brick);
             wall[i].setBounds(x, y, x + side / 2, y + side / 2);
             x = x + side / 2;
             i = i + 1;
@@ -125,25 +125,25 @@ public class GameBoard extends View {
                 block[i][j] = ContextCompat.getDrawable(context, R.color.alpha);
                 break;
             case Values.COLOR_CYAN:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_cyan1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_cyan);
                 break;
             case Values.COLOR_BLUE:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_blue1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_blue);
                 break;
             case Values.COLOR_ORANGE:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_orange1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_orange);
                 break;
             case Values.COLOR_YELLOW:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_yellow1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_yellow);
                 break;
             case Values.COLOR_GREEN:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_green1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_green);
                 break;
             case Values.COLOR_RED:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_red1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_red);
                 break;
             case Values.COLOR_PURPLE:
-                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_purple1);
+                block[i][j] = ContextCompat.getDrawable(context, R.drawable.block_purple);
                 break;
 
         }

@@ -1,7 +1,8 @@
 package org.oucho.tetris;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,13 +45,7 @@ public class Game extends AppCompatActivity
 	private TextView nbLignes;
 	private TextView textScore;
 
-	private ImageView pièce0;
-	private ImageView pièce1;
-	private ImageView pièce2;
-	private ImageView pièce3;
-	private ImageView pièce4;
-	private ImageView pièce5;
-	private ImageView pièce6;
+	private ImageView nextPieceImg;
 	private ImageView button0;
 
 	private int score = 0;
@@ -82,14 +77,8 @@ public class Game extends AppCompatActivity
 
 		button0 = (ImageView) findViewById(R.id.ButtonMoveD);
 
+		nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
 
-		pièce0 = (ImageView) findViewById(R.id.pièce0);
-		pièce1 = (ImageView) findViewById(R.id.pièce1);
-		pièce2 = (ImageView) findViewById(R.id.pièce2);
-		pièce3 = (ImageView) findViewById(R.id.pièce3);
-		pièce4 = (ImageView) findViewById(R.id.pièce4);
-		pièce5 = (ImageView) findViewById(R.id.pièce5);
-		pièce6 = (ImageView) findViewById(R.id.pièce6);
 
 		niveau = (TextView) findViewById(R.id.niveau);
 		nbLignes = (TextView) findViewById(R.id.lignes);
@@ -370,90 +359,41 @@ public class Game extends AppCompatActivity
 		switch(nextPiece.type){
 			case Values.PIECE_0:
 
-				pièce0.setVisibility(View.VISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-
-
-				//nextPieceImg.setImageResource(R.drawable.piece0);
+				nextPieceImg.setImageResource(R.drawable.piece0);
 
 				break;
 			case Values.PIECE_1:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.VISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece1);
+
+				nextPieceImg.setImageResource(R.drawable.piece1);
 
 				break;
 			case Values.PIECE_2:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.VISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece2);
+
+				nextPieceImg.setImageResource(R.drawable.piece2);
 
 				break;
 			case Values.PIECE_3:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.VISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece3);
+
+				nextPieceImg.setImageResource(R.drawable.piece3);
 
 				break;
 			case Values.PIECE_4:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.VISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece4);
+
+				nextPieceImg.setImageResource(R.drawable.piece4);
 
 				break;
 			case Values.PIECE_5:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.VISIBLE);
-				pièce6.setVisibility(View.INVISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece5);
+
+				nextPieceImg.setImageResource(R.drawable.piece5);
 
 				break;
 			case Values.PIECE_6:
-				pièce0.setVisibility(View.INVISIBLE);
-				pièce1.setVisibility(View.INVISIBLE);
-				pièce2.setVisibility(View.INVISIBLE);
-				pièce3.setVisibility(View.INVISIBLE);
-				pièce4.setVisibility(View.INVISIBLE);
-				pièce5.setVisibility(View.INVISIBLE);
-				pièce6.setVisibility(View.VISIBLE);
-				//nextPieceImg.setImageResource(R.drawable.piece6);
 
+				nextPieceImg.setImageResource(R.drawable.piece6);
 
-/*				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.outHeight = XXXX;
-				options.outWidth = XXXX;
-				Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.myimage, options);
+				break;
 
-				imageView.setImageBitmap(bm);*/
+			default:
 				break;
 		}
 	}
@@ -634,9 +574,11 @@ public class Game extends AppCompatActivity
 	 * Checks if the current game is loose
 	 * ************************************************/
 	private void checkGameLoose() {
-		int hScore1, hScore2, hScore3, aux;
+		int hScore1, hScore2, hScore3, hScore4, hScore5;
+		int tmpScore;
 
-		String hScore1Date, hScore2Date, hScore3Date;
+		String hScore1Date, hScore2Date, hScore3Date, hScore4Date, hScore5Date;
+		String tmpDate;
 
 		boolean loose = false;
 
@@ -645,51 +587,89 @@ public class Game extends AppCompatActivity
 				loose = true;
 		if (!loose)
 			return;
-		//If I get here, the game is loose. Game state variable is set to false
+
+		// si la partie est perdu
 		game = false;
 
 
 
-		//Add high scores if needed
 		SharedPreferences highScores = getSharedPreferences("highScores", 0);
 		hScore1 = highScores.getInt("hScore1", 0);
 		hScore2 = highScores.getInt("hScore2", 0);
 		hScore3 = highScores.getInt("hScore3", 0);
+		hScore4 = highScores.getInt("hScore4", 0);
+		hScore5 = highScores.getInt("hScore5", 0);
 		hScore1Date = highScores.getString("hScore1Date", "0");
 		hScore2Date = highScores.getString("hScore2Date", "0");
 		hScore3Date = highScores.getString("hScore3Date", "0");
+		hScore4Date = highScores.getString("hScore4Date", "0");
+		hScore5Date = highScores.getString("hScore5Date", "0");
 
-		Calendar currentDate = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("cccc d MMMM yyyy, HH:mm");
+		String date = df.format(Calendar.getInstance().getTime());
 
-		Date dateNow = currentDate.getTime();
+		if(score > hScore5){
+			hScore5 = score;
+			hScore5Date = date;
+		}
 
-		if(score > hScore3){
-			hScore3 = score;
-			hScore3Date = dateNow.toString();
+
+		if(hScore5 > hScore4){
+			tmpScore = hScore4;
+			tmpDate = hScore4Date;
+
+			hScore4 = hScore5;
+			hScore4Date = hScore5Date;
+
+			hScore5 = tmpScore;
+			hScore5Date = tmpDate;
+		}
+
+		if(hScore4 > hScore3){
+			tmpScore = hScore3;
+			tmpDate = hScore3Date;
+
+			hScore3 = hScore4;
+			hScore3Date = hScore4Date;
+
+			hScore4 = tmpScore;
+			hScore4Date = tmpDate;
 		}
 
 		if(hScore3 > hScore2){
-			aux = hScore2;
+			tmpScore = hScore2;
+			tmpDate = hScore2Date;
+
 			hScore2 = hScore3;
 			hScore2Date = hScore3Date;
-			hScore3 = aux;
+
+			hScore3 = tmpScore;
+			hScore3Date = tmpDate;
 		}
 
 		if(hScore2 > hScore1){
-			aux = hScore1;
+			tmpScore = hScore1;
+			tmpDate = hScore1Date;
+
 			hScore1 = hScore2;
 			hScore1Date = hScore2Date;
-			hScore2 = aux;
+
+			hScore2 = tmpScore;
+			hScore2Date = tmpDate;
 		}
 
 		SharedPreferences.Editor editor = highScores.edit();
 		editor.putInt("hScore1", hScore1);
 		editor.putInt("hScore2", hScore2);
 		editor.putInt("hScore3", hScore3);
+		editor.putInt("hScore4", hScore4);
+		editor.putInt("hScore5", hScore5);
 		editor.putString("hScore1Date", hScore1Date);
-		editor.putString("hScore2Date", hScore1Date);
-		editor.putString("hScore3Date", hScore1Date);
-		editor.commit();
+		editor.putString("hScore2Date", hScore2Date);
+		editor.putString("hScore3Date", hScore3Date);
+		editor.putString("hScore4Date", hScore4Date);
+		editor.putString("hScore5Date", hScore5Date);
+		editor.apply();
 
 		//Show dialog showing score
 		//TODO:Show a trophy icon if high score
