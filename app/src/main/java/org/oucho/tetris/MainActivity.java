@@ -1,15 +1,25 @@
 package org.oucho.tetris;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 
 import org.oucho.tetris.update.AppUpdate;
 import org.oucho.tetris.update.Display;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
@@ -18,7 +28,22 @@ public class MainActivity extends AppCompatActivity
     private MediaPlayer soundIntro;
     private MediaPlayer soundClick;
 
+    Context context;
+
     private static final String updateURL = "http://oucho.free.fr/app_android/Tetris/update_tetris.xml";
+
+    int tailleDPI;
+    int divisionEcran;
+    int hauteurEcran;
+
+    TranslateAnimation animation0, animation1, animation2, animation3, animation4, animation5, animation6;
+    ImageView pièce0, pièce1, pièce2, pièce3, pièce4, pièce5, pièce6;
+
+    private int[] rotAngle;
+    private int[] délaiAnim;
+    private String[] tetrinominos;
+
+    private static final Random rgenerator = new Random();
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -26,9 +51,38 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Resources res = getResources();
+
+        context = getApplicationContext();
+
+        rotAngle = res.getIntArray(R.array.Angles);
+        délaiAnim = res.getIntArray(R.array.Délai);
+        tetrinominos = res.getStringArray(R.array.Tetrinominos);
+
         this.findViewById(R.id.buttonAbout).setOnClickListener(this);
         this.findViewById(R.id.buttonNewGame).setOnClickListener(this);
         this.findViewById(R.id.buttonHighScores).setOnClickListener(this);
+
+        pièce0 = (ImageView) findViewById(R.id.anim0);
+        pièce1 = (ImageView) findViewById(R.id.anim1);
+        pièce2 = (ImageView) findViewById(R.id.anim2);
+        pièce3 = (ImageView) findViewById(R.id.anim3);
+        pièce4 = (ImageView) findViewById(R.id.anim4);
+        pièce5 = (ImageView) findViewById(R.id.anim5);
+        pièce6 = (ImageView) findViewById(R.id.anim6);
+
+
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        tailleDPI = metrics.densityDpi;
+        // arrondi inférieur Math.floor
+        divisionEcran = (int) Math.floor(tailleDPI / 11);
+
+        Point size = new Point();
+        this.getWindowManager().getDefaultDisplay().getSize(size);
+        hauteurEcran = size.y;
+
 
         soundClick = MediaPlayer.create(this, R.raw.move);
 
@@ -36,6 +90,228 @@ public class MainActivity extends AppCompatActivity
         soundIntro.start();
 
         updateOnStart();
+        animTetriminos();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        pièce0.clearAnimation();
+        pièce1.clearAnimation();
+        pièce2.clearAnimation();
+        pièce3.clearAnimation();
+        pièce4.clearAnimation();
+        pièce5.clearAnimation();
+        pièce6.clearAnimation();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        pièce0.startAnimation(animation0);
+        pièce1.startAnimation(animation1);
+        pièce2.startAnimation(animation2);
+        pièce3.startAnimation(animation3);
+        pièce4.startAnimation(animation4);
+        pièce5.startAnimation(animation5);
+        pièce6.startAnimation(animation6);
+
+    }
+
+    public void animTetriminos() {
+        // TranslateAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta)
+
+        // |
+        animation0 = new TranslateAnimation(0, 0, 0, hauteurEcran+80);
+        animation0.setAnimationListener(new AnimationListener0());
+        animation0.setDuration(genDelai());
+        animation0.setRepeatCount(-1);
+        animation0.setRepeatMode(Animation.RESTART);
+        animation0.setFillAfter(true);
+        pièce0.startAnimation(animation0);
+
+        // _|
+        animation1 = new TranslateAnimation(divisionEcran, divisionEcran, 0, hauteurEcran+80);
+        animation1.setAnimationListener(new AnimationListener1());
+        animation1.setDuration(genDelai());
+        animation1.setRepeatCount(-1);
+        animation1.setRepeatMode(Animation.RESTART);
+        animation1.setFillAfter(true);
+        pièce1.startAnimation(animation1);
+
+
+        // |_
+        animation2 = new TranslateAnimation(divisionEcran*2, divisionEcran*2, 0, hauteurEcran+80);
+        animation2.setAnimationListener(new AnimationListener2());
+        animation2.setDuration(genDelai());
+        animation2.setRepeatCount(-1);
+        animation2.setRepeatMode(Animation.RESTART);
+        animation2.setFillAfter(true);
+        pièce2.startAnimation(animation2);
+
+
+        // O
+        animation3 = new TranslateAnimation(divisionEcran*3, divisionEcran*3, 0, hauteurEcran+80);
+        animation3.setDuration(genDelai());
+        animation3.setRepeatCount(-1);
+        animation3.setRepeatMode(Animation.RESTART);
+        animation3.setFillAfter(true);
+        pièce3.startAnimation(animation3);
+
+
+        // s
+        animation4 = new TranslateAnimation(divisionEcran*4, divisionEcran*4, 0, hauteurEcran+80);
+        animation4.setAnimationListener(new AnimationListener4());
+        animation4.setDuration(genDelai());
+        animation4.setRepeatCount(-1);
+        animation4.setRepeatMode(Animation.RESTART);
+        animation4.setFillAfter(true);
+        pièce4.startAnimation(animation4);
+
+
+        // z
+        animation5 = new TranslateAnimation(divisionEcran*5, divisionEcran*5, 0, hauteurEcran+80);
+        animation5.setAnimationListener(new AnimationListener5());
+        animation5.setDuration(genDelai());
+        animation5.setRepeatCount(-1);
+        animation5.setRepeatMode(Animation.RESTART);
+        animation5.setFillAfter(true);
+        pièce5.startAnimation(animation5);
+
+        // _|_
+        animation6 = new TranslateAnimation(divisionEcran*6, divisionEcran*6, 0, hauteurEcran+80);
+        animation6.setAnimationListener(new AnimationListener6());
+        animation6.setDuration(genDelai());
+        animation6.setRepeatCount(-1);
+        animation6.setRepeatMode(Animation.RESTART);
+        animation6.setFillAfter(true);
+        pièce6.startAnimation(animation6);
+    }
+
+
+    private int genDelai() {
+        return délaiAnim[rgenerator.nextInt(délaiAnim.length)];
+    }
+
+    private int genAngle() {
+        return rotAngle[rgenerator.nextInt(rotAngle.length)];
+    }
+
+    private int genTetrinominos() {
+
+        String img = "drawable/" + tetrinominos[rgenerator.nextInt(tetrinominos.length)];
+
+        return context.getResources().getIdentifier(img, null, context.getPackageName());
+    }
+
+    private class AnimationListener0 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            animation0.setDuration(genDelai());
+            pièce0.setImageResource(genTetrinominos());
+            pièce0.setRotation(genAngle());
+
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+    }
+
+    private class AnimationListener1 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            animation1.setDuration(genDelai());
+            pièce1.setImageResource(genTetrinominos());
+            pièce1.setRotation(genAngle());
+
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+    }
+    private class AnimationListener2 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            animation2.setDuration(genDelai());
+            pièce2.setImageResource(genTetrinominos());
+            pièce2.setRotation(genAngle());
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+    }
+
+
+    private class AnimationListener4 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            animation4.setDuration(genDelai());
+            pièce4.setImageResource(genTetrinominos());
+            pièce4.setRotation(genAngle());
+
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+    }
+
+    private class AnimationListener5 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+            animation5.setDuration(genDelai());
+            pièce5.setImageResource(genTetrinominos());
+            pièce5.setRotation(genAngle());
+
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+    }
+
+    private class AnimationListener6 implements AnimationListener {
+
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+            animation6.setDuration(genDelai());
+            pièce6.setImageResource(genTetrinominos());
+            pièce6.setRotation(genAngle());
+
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {}
 
     }
 

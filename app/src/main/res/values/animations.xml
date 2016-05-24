@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="Angles">
+        <item>0</item>
+        <item>90</item>
+        <item>180</item>
+    </integer-array>
+
+    <integer-array name="Délai">
+        <item>10000</item>
+        <item>11000</item>
+        <item>12000</item>
+        <item>13000</item>
+        <item>14000</item>
+        <item>15000</item>
+        <item>16000</item>
+        <item>17000</item>
+        <item>18000</item>
+        <item>19000</item>
+        <item>20000</item>
+    </integer-array>
+
+    <string-array name="Tetrinominos">
+        <item>piece0</item>
+        <item>piece1</item>
+        <item>piece2</item>
+        <item>piece3</item>
+        <item>piece4</item>
+        <item>piece5</item>
+        <item>piece6</item>
+    </string-array>
+
+</resources>
