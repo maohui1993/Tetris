@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece0"
         android:rotation="90"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim1"
@@ -20,7 +20,7 @@
         android:src="@drawable/piece1"
         android:layout_marginLeft="50dp"
         android:rotation="0"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim2"
@@ -28,7 +28,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece2"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim3"
@@ -36,7 +36,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece3"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim4"
@@ -44,7 +44,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece4"
         android:layout_marginLeft="200dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim5"
@@ -52,7 +52,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece5"
         android:layout_marginLeft="250dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
     <ImageView
         android:id="@+id/anim6"
@@ -60,7 +60,7 @@
         android:layout_height="40dp"
         android:src="@drawable/piece6"
         android:layout_marginLeft="320dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-45dp"/>
 
 
 
@@ -74,7 +74,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight=".7"
-                android:src="@drawable/tetris_titre2" />
+                android:src="@drawable/tetris_titre" />
 
 
         <android.support.v7.widget.CardView

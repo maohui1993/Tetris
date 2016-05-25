@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -605,6 +606,7 @@ public class Game extends AppCompatActivity
 		hScore4Date = highScores.getString("hScore4Date", "0");
 		hScore5Date = highScores.getString("hScore5Date", "0");
 
+		@SuppressLint("SimpleDateFormat")
 		DateFormat df = new SimpleDateFormat("cccc d MMMM yyyy, HH:mm");
 		String date = df.format(Calendar.getInstance().getTime());
 
@@ -680,7 +682,7 @@ public class Game extends AppCompatActivity
         builder.setMessage(msg)
                 .setCancelable(false)
 
-                .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.end, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         dialog.cancel();

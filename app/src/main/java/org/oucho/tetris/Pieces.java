@@ -28,8 +28,6 @@ class Pieces {
 	}
 
 
-
-
 	public Pieces() {
 		Random generator = new Random();
 
@@ -40,7 +38,7 @@ class Pieces {
 		for (int i = a; i > 0; i-- ) {
 			aleatoire = (byte) generator.nextInt(7);
 		}
-		//sound = MediaPlayer.create(context, R.raw.down);
+
 		type = aleatoire;
 
 		//type = 2;//TESTING, change to be all the same piece
@@ -69,52 +67,50 @@ class Pieces {
 			/// 0 = haut, 1 = bas
 
 			case Values.PIECE_0: //The bar _
-				box[0][3] = true;
-				box[0][4] = true;
-				box[0][5] = true;
-				box[0][6] = true;
-
-				break;
-
-			case Values.PIECE_1: //The 'L'-shaped  __|
-				box[0][4] = true;
+				// initialisé à 1 pour permettre la rotation dès l'apparition
+				box[1][3] = true;
 				box[1][4] = true;
 				box[1][5] = true;
 				box[1][6] = true;
 
-
 				break;
 
-			case Values.PIECE_2: //The  inverted 'L'-shaped |__  *
+			case Values.PIECE_1: //  __|
+				box[0][4] = true;
+				box[1][4] = true;
+				box[1][5] = true;
+				box[1][6] = true;
+				break;
+
+			case Values.PIECE_2: // |__
 				box[0][5] = true;
 				box[1][3] = true;
 				box[1][4] = true;
 				box[1][5] = true;
-
 				break;
 
-			case Values.PIECE_3: //The cube ==
+			case Values.PIECE_3: // O
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][4] = true;
 				box[1][5] = true;
 				break;
 
-			case Values.PIECE_4: //The inverted 'Z'-shaped S
+			case Values.PIECE_4: // S
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][3] = true;
 				box[1][4] = true;
 				break;
 
-			case Values.PIECE_5: //The 'Z'-shaped Z
+			case Values.PIECE_5: // Z
 				box[0][4] = true;
 				box[0][5] = true;
 				box[1][5] = true;
 				box[1][6] = true;
 				break;
 
-			case Values.PIECE_6: //The inverted 'T'  _|_
+			case Values.PIECE_6: // _|_
 				box[0][4] = true;
 				box[1][3] = true;
 				box[1][4] = true;
@@ -213,7 +209,8 @@ class Pieces {
 	//Called when a piece is going to be rotated. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
 
 
-	public boolean rotateRight(){
+	@SuppressWarnings("UnusedReturnValue")
+    public boolean rotateRight(){
 		int i = 0;
 		int j = 0;
 		switch (type){
@@ -284,20 +281,26 @@ class Pieces {
 						//Check availability
 						if (i == 18)
 							return false;
+
 						if (i == 19)
 							return false;
+
 						if (i == 0)
 							return false;
-						if (board[i - 1][j + 2])
-							return false;
+
+                        if (board[i - 1][j + 2])
+                            return false;
+
 						if (board[i + 1][j + 2])
 							return false;
 						if (board[i + 2][j + 2])
 							return false;
+
 						//Perform transformation
-						box[i - 1][j + 2] = true;
+                        box[i - 1][j + 2] = true;
 						box[i + 1][j + 2] = true;
 						box[i + 2][j + 2] = true;
+
 						box[i][j] = false;
 						box[i][j + 1] = false;
 						box[i][j + 3] = false;
@@ -774,7 +777,8 @@ class Pieces {
 		return true;
 	}
 	
-	public boolean rotateLeft(){
+	@SuppressWarnings("UnusedReturnValue")
+    public boolean rotateLeft(){
 		int i = 0;
 		int j = 0;
 		switch (type){
@@ -802,18 +806,24 @@ class Pieces {
 							return false;
 						if (i == 19)
 							return false;
-						if (i == 0)
-							return false;
-						if (board[i - 1][j + 2])
-							return false;
-						if (board[i + 1][j + 2])
-							return false;
-						if (board[i + 2][j + 2])
-							return false;
+
+                        if (i == 0)
+                            return false;
+
+                        if (board[i - 1][j + 2])
+                            return false;
+
+                        if (board[i + 1][j + 2])
+                            return false;
+                        if (board[i + 2][j + 2])
+                            return false;
+
+
 						//Perform transformation
 						box[i - 1][j + 2] = true;
 						box[i + 1][j + 2] = true;
 						box[i + 2][j + 2] = true;
+
 						box[i][j] = false;
 						box[i][j + 1] = false;
 						box[i][j + 3] = false;
