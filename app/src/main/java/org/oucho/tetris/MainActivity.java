@@ -35,15 +35,16 @@ public class MainActivity extends AppCompatActivity
 
     private static final String updateURL = "http://oucho.free.fr/app_android/Tetris/update_tetris.xml";
 
-    private static int divisionEcran;
-    private static int hauteurEcran;
 
-    private TranslateAnimation animation0, animation1, animation2, animation3, animation4, animation5, animation6;
+
     private ImageView pièce0, pièce1, pièce2, pièce3, pièce4, pièce5, pièce6;
-
+    private TranslateAnimation animation0, animation1, animation2, animation3, animation4, animation5, animation6;
 
     private int[] rotAngle;
     private int[] délaiAnim;
+
+    private static int hauteurEcran;
+    private static int divisionEcran;
 
     private String[] tetrinominos;
 
@@ -99,6 +100,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPause() {
         super.onPause();
+
+        try {
+            soundIntro.stop();
+        } catch (Exception ignored) {}
 
         pièce0.clearAnimation();
         pièce1.clearAnimation();
@@ -419,11 +424,9 @@ public class MainActivity extends AppCompatActivity
      **********************************************************************************************/
 
     @Override
-    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-
+    public void onBackPressed() {
         mpRelease();
         finish();
-        return super.onKeyDown(keyCode, event);
     }
 
     private void mpRelease() {

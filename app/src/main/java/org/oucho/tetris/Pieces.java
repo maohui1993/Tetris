@@ -209,8 +209,7 @@ class Pieces {
 	//Called when a piece is going to be rotated. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
 
 
-	@SuppressWarnings("UnusedReturnValue")
-    public boolean rotateRight(){
+	public boolean rotateRight(){
 		int i = 0;
 		int j = 0;
 		switch (type){
@@ -777,8 +776,7 @@ class Pieces {
 		return true;
 	}
 	
-	@SuppressWarnings("UnusedReturnValue")
-    public boolean rotateLeft(){
+	public boolean rotateLeft(){
 		int i = 0;
 		int j = 0;
 		switch (type){
