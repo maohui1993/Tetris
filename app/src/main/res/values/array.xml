@@ -30,4 +30,11 @@
         <item>piece6</item>
     </string-array>
 
+    <integer-array name="PremierTirage">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+    </integer-array>
+
 </resources>

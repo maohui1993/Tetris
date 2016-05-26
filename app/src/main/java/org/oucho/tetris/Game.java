@@ -3,6 +3,7 @@ package org.oucho.tetris;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -29,8 +30,11 @@ public class Game extends AppCompatActivity
 
 	private Box[][] box;
 
-	private Pieces nextPiece = new Pieces();
-	private Pieces currentPiece = new Pieces();
+	private Pieces nextPiece = new Pieces(false, 0);
+	private Pieces currentPiece;
+
+    private byte répétition0 = 0;
+    private byte répétition1 = -1;
 
 
 	private CountDownTimer timer;
@@ -49,7 +53,7 @@ public class Game extends AppCompatActivity
 	private TextView nbLignes;
 	private TextView textScore;
 
-	private ImageView nextPieceImg;
+    private ImageView nextPieceImg;
 	private ImageView button0;
 
 	private int score = 0;
@@ -67,6 +71,13 @@ public class Game extends AppCompatActivity
 
 	private boolean game;
 
+
+    // première pièce J, I, L ou T
+    private static final Random rgenerator = new Random();
+    private int[] tirage;
+
+
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +85,7 @@ public class Game extends AppCompatActivity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.game);
 
+        tirage = getResources().getIntArray(R.array.PremierTirage);
 
 		btnPause = (TextView) findViewById(R.id.buttonPause);
 
@@ -89,7 +101,7 @@ public class Game extends AppCompatActivity
 		textScore = (TextView) findViewById(R.id.TextViewScore);
 
 
-		for(int ID : bouton_ID)
+        for(int ID : bouton_ID)
 			this.findViewById(ID).setOnClickListener(this);
 
 
@@ -102,7 +114,7 @@ public class Game extends AppCompatActivity
 				.build();
 		soundPool = new SoundPool.Builder()
 				.setAudioAttributes(audioAttrib)
-				.setMaxStreams(1)
+				.setMaxStreams(3)
 				.build();
 
 		soundDown = soundPool.load(this, R.raw.down, 1);
@@ -114,6 +126,7 @@ public class Game extends AppCompatActivity
 		textScore.setText("0");
 		niveau.setText("0");
 
+        setPremierTirage();
 
 		board();
 		setImgs();
@@ -122,6 +135,13 @@ public class Game extends AppCompatActivity
 		currentPiece.start();
 	}
 
+    private void setPremierTirage() {
+
+        int plop =  tirage[rgenerator.nextInt(tirage.length)];
+
+        currentPiece = new Pieces(true, plop);
+
+    }
 
 
 	/* **********************************************************************************************
@@ -321,7 +341,7 @@ public class Game extends AppCompatActivity
 		});
 	}
 
-
+    //byte TEST;
 
 	/* ************************************************
 	 * Main time bucle
@@ -330,12 +350,15 @@ public class Game extends AppCompatActivity
 	private void gameAction(){
 		if (game){
 
+
+
 			unDraw();
 
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
 
                 soundPool.play(soundDown, 1, 1, 1, 0, 1);
+
 
 				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
 				for (int i = 0; i < 20; i++)
@@ -345,20 +368,35 @@ public class Game extends AppCompatActivity
 							gameBoard.setColor(i, j, currentPiece.getColor());
 						}
 					}
+
 				/// ...check if there is any full row...
 				if (!lookForRows()){
 					combo = 1; //If nothing has been removed, set combo to 1
 
 				}
+
 				//... check if the game is loose... 
 				checkGameLoose();
-				// ... and start a new piece
+
+
+
+                // ... and start a new piece
 				currentPiece = nextPiece;
 				currentPiece.start();
 
-				nextPiece = new Pieces();
 
-				//Set the next piece image
+                // controle que la nouvelle pièce n'est sortie plus de 2 fois sur 3
+                do {
+                    nextPiece = new Pieces(false, 0);
+
+                } while (nextPiece.type == répétition0 && nextPiece.type == répétition1 || nextPiece.type == 4 && répétition0 == 4 || nextPiece.type == 5 && répétition0 == 5);
+
+
+                répétition1 = répétition0;
+                répétition0 = nextPiece.type;
+
+
+                //Set the next piece image
 				setImgs();
 
 			}
@@ -454,6 +492,7 @@ public class Game extends AppCompatActivity
 	private void removeRow(int row){
 
         soundPool.play(soundLine, 1, 1, 1, 0, 1);
+
 
 
 		score = score + Values.SCORE_PER_ROW * combo;
@@ -730,9 +769,6 @@ public class Game extends AppCompatActivity
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 
-
 		return super.onKeyDown(keyCode, event);
 	}
-
-
 }

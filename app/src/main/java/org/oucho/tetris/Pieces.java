@@ -1,13 +1,14 @@
 package org.oucho.tetris;
 
 import android.util.Log;
+
 import java.util.Random;
 
 
 class Pieces {
 
 	//The type of the piece, the shape.
-	public final byte type;
+	public byte type;
 	
 	//The color of the piece. It depends on the type
 	private final byte color;
@@ -27,21 +28,24 @@ class Pieces {
 		return color;
 	}
 
+	byte aléatoire;
 
-	public Pieces() {
+	public Pieces (boolean x, int y) {
+
 		Random generator = new Random();
 
-		byte aleatoire = 0;
+		if (x) {
+			type = (byte) y;
 
-		byte a = (byte) generator.nextInt(7);
+			Log.d("Pièces", "premierTirage" + y);
 
-		for (int i = a; i > 0; i-- ) {
-			aleatoire = (byte) generator.nextInt(7);
+		} else {
+
+			// augmmente le nombre de passes pour améliorer le hasard
+			for (int i = 7; i > 0; i-- ) {
+				type = (byte) generator.nextInt(7);
+			}
 		}
-
-		type = aleatoire;
-
-		//type = 2;//TESTING, change to be all the same piece
 
 		color = (byte) (type + 1);
 
@@ -209,7 +213,8 @@ class Pieces {
 	//Called when a piece is going to be rotated. Also checks if the piece can be moved. Returns true (and moves the piece) if it's possible
 
 
-	public boolean rotateRight(){
+	@SuppressWarnings("UnusedReturnValue")
+    public boolean rotateRight(){
 		int i = 0;
 		int j = 0;
 		switch (type){
@@ -514,20 +519,15 @@ class Pieces {
                                 return false;
                         } catch (Exception ignored) {}
 
-                        Log.d("\\_o< coin", "4");
-
 
                         if (board[i + 2][j + 2])
 							return false;
-                        Log.d("\\_o< coin", "5");
 
 						//Perform transformation
 						box[i + 1][j + 2] = true;
 						box[i + 2][j + 2] = true;
 						box[i][j] = false;
 						box[i + 1][j] = false;
-
-                        Log.d("\\_o< coin", "6");
 
                         break;
 
@@ -776,7 +776,8 @@ class Pieces {
 		return true;
 	}
 	
-	public boolean rotateLeft(){
+	@SuppressWarnings("UnusedReturnValue")
+    public boolean rotateLeft(){
 		int i = 0;
 		int j = 0;
 		switch (type){
