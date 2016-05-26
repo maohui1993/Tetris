@@ -9,7 +9,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.media.MediaPlayer;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -36,10 +37,12 @@ public class Game extends AppCompatActivity
 
 	private GameBoard gameBoard;
 
-	private MediaPlayer soundMove;
-	private MediaPlayer soundLine;
-	private MediaPlayer soundDown;
-	private MediaPlayer soundRotate;
+	private SoundPool soundPool;
+
+	private int soundMove;
+	private int soundLine;
+	private int soundDown;
+	private int soundRotate;
 
 	private TextView niveau;
 	private TextView btnPause;
@@ -92,10 +95,21 @@ public class Game extends AppCompatActivity
 
 		game = true;
 
-		soundDown = MediaPlayer.create(this, R.raw.down);
-        soundLine = MediaPlayer.create(this, R.raw.line);
-        soundMove = MediaPlayer.create(this, R.raw.move);
-        soundRotate = MediaPlayer.create(this, R.raw.rotate);
+
+		AudioAttributes audioAttrib = new AudioAttributes.Builder()
+				.setUsage(AudioAttributes.USAGE_GAME)
+				.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+				.build();
+		soundPool = new SoundPool.Builder()
+				.setAudioAttributes(audioAttrib)
+				.setMaxStreams(1)
+				.build();
+
+		soundDown = soundPool.load(this, R.raw.down, 1);
+		soundLine = soundPool.load(this, R.raw.line, 1);
+		soundMove = soundPool.load(this, R.raw.move, 1);
+		soundRotate = soundPool.load(this, R.raw.rotate, 1);
+
 
 		textScore.setText("0");
 		niveau.setText("0");
@@ -178,7 +192,8 @@ public class Game extends AppCompatActivity
 			case R.id.ButtonMoveR:
 
 				if (game) {
-					soundMove.start();
+
+                    soundPool.play(soundMove, 1, 1, 1, 0, 1);
 
 					unDraw();
 					currentPiece.moveRight();
@@ -191,7 +206,7 @@ public class Game extends AppCompatActivity
 
 				if (game) {
 
-					soundMove.start();
+                    soundPool.play(soundMove, 1, 1, 1, 0, 1);
 
 					unDraw();
 					currentPiece.moveLeft();
@@ -204,7 +219,7 @@ public class Game extends AppCompatActivity
 
 				if (game) {
 
-					soundMove.start();
+                    soundPool.play(soundMove, 1, 1, 1, 0, 1);
 
 					unDraw();
 					currentPiece.moveDown();
@@ -220,7 +235,8 @@ public class Game extends AppCompatActivity
 
 				if (game) {
 
-					soundRotate.start();
+                    soundPool.play(soundRotate, 1, 1, 1, 0, 1);
+
 					unDraw();
 					currentPiece.rotateRight();
 					reDraw();
@@ -232,7 +248,8 @@ public class Game extends AppCompatActivity
 
 				if (game) {
 
-					soundRotate.start();
+                    soundPool.play(soundRotate, 1, 1, 1, 0, 1);
+
 					unDraw();
 					currentPiece.rotateLeft();
 					reDraw();
@@ -318,7 +335,8 @@ public class Game extends AppCompatActivity
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
 
-				soundDown.start();
+                soundPool.play(soundDown, 1, 1, 1, 0, 1);
+
 				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
 				for (int i = 0; i < 20; i++)
 					for (int j = 0; j < 10; j++){
@@ -435,7 +453,8 @@ public class Game extends AppCompatActivity
 	 * ************************************************/
 	private void removeRow(int row){
 
-		soundLine.start();
+        soundPool.play(soundLine, 1, 1, 1, 0, 1);
+
 
 		score = score + Values.SCORE_PER_ROW * combo;
 
@@ -686,7 +705,6 @@ public class Game extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int id) {
 
                         dialog.cancel();
-						mpRelease();
                         finish();
                     }
                 })
@@ -712,16 +730,9 @@ public class Game extends AppCompatActivity
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 
-		mpRelease();
 
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private void mpRelease() {
-		soundMove.release();
-		soundLine.release();
-		soundDown.release();
-		soundRotate.release();
-	}
 
 }

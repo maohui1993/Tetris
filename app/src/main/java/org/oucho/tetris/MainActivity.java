@@ -1,11 +1,12 @@
 package org.oucho.tetris;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -28,9 +29,9 @@ public class MainActivity extends AppCompatActivity
     private final static Handler handler = new Handler();
 
     private MediaPlayer soundIntro;
-    private MediaPlayer soundClick;
+    private int soundClick;
 
-    private Context context;
+    private SoundPool soundPool;
 
     private static final String updateURL = "http://oucho.free.fr/app_android/Tetris/update_tetris.xml";
 
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity
 
     private static final Random rgenerator = new Random();
 
+
+
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,6 @@ public class MainActivity extends AppCompatActivity
 
         Resources res = getResources();
 
-        context = getApplicationContext();
 
         rotAngle = res.getIntArray(R.array.Angles);
         délaiAnim = res.getIntArray(R.array.Délai);
@@ -87,7 +89,18 @@ public class MainActivity extends AppCompatActivity
         hauteurEcran = size.y;
 
 
-        soundClick = MediaPlayer.create(this, R.raw.move);
+        AudioAttributes audioAttrib = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttrib)
+                .setMaxStreams(1)
+                .build();
+
+
+
+        soundClick = soundPool.load(this, R.raw.move, 1);
 
         soundIntro = MediaPlayer.create(this, R.raw.intro);
         soundIntro.start();
@@ -239,7 +252,7 @@ public class MainActivity extends AppCompatActivity
 
         String img = "drawable/" + tetrinominos[rgenerator.nextInt(tetrinominos.length)];
 
-        return context.getResources().getIdentifier(img, null, context.getPackageName());
+        return this.getResources().getIdentifier(img, null, this.getPackageName());
     }
 
 
@@ -375,20 +388,20 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
 
             case R.id.buttonNewGame:
-                soundClick.start();
+                soundPool.play(soundClick, 1, 1, 1, 0, 1);
                 intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.Game"));
                 startActivity(intent);
                 soundIntro.stop();
                 break;
 
             case R.id.buttonHighScores:
-                soundClick.start();
+                soundPool.play(soundClick, 1, 1, 1, 0, 1);
                 intent.setComponent(new ComponentName("org.oucho.tetris", "org.oucho.tetris.HighScores"));
                 startActivity(intent);
                 break;
 
             case R.id.buttonAbout:
-                soundClick.start();
+                soundPool.play(soundClick, 1, 1, 1, 0, 1);
                 showAboutDialog();
                 break;
 
@@ -430,7 +443,6 @@ public class MainActivity extends AppCompatActivity
 
     private void mpRelease() {
         //soundIntro.stop();
-        soundClick.release();
         soundIntro.release();
 
     }
