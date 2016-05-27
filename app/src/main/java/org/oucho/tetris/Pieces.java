@@ -28,8 +28,6 @@ class Pieces {
 		return color;
 	}
 
-	byte aléatoire;
-
 	public Pieces (boolean x, int y) {
 
 		Random generator = new Random();
@@ -41,10 +39,8 @@ class Pieces {
 
 		} else {
 
-			// augmmente le nombre de passes pour améliorer le hasard
-			for (int i = 7; i > 0; i-- ) {
-				type = (byte) generator.nextInt(7);
-			}
+			type = (byte) generator.nextInt(7);
+
 		}
 
 		color = (byte) (type + 1);

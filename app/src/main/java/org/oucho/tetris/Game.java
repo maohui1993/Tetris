@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +36,7 @@ public class Game extends AppCompatActivity
 
     private byte répétition0 = 0;
     private byte répétition1 = -1;
+    private byte répétition2 = -1;
 
 
 	private CountDownTimer timer;
@@ -76,6 +78,15 @@ public class Game extends AppCompatActivity
     private static final Random rgenerator = new Random();
     private int[] tirage;
 
+    private int compteurPièce = -1;
+
+    private int piece0 = 0;
+    private int piece1 = 0;
+    private int piece2 = 0;
+    private int piece3 = 0;
+    private int piece4 = 0;
+    private int piece5 = 0;
+    private int piece6 = 0;
 
 
 	@SuppressWarnings("ConstantConditions")
@@ -96,7 +107,7 @@ public class Game extends AppCompatActivity
 		nextPieceImg = (ImageView) findViewById(R.id.imageViewNext);
 
 
-		niveau = (TextView) findViewById(R.id.niveau);
+        niveau = (TextView) findViewById(R.id.niveau);
 		nbLignes = (TextView) findViewById(R.id.lignes);
 		textScore = (TextView) findViewById(R.id.TextViewScore);
 
@@ -139,7 +150,9 @@ public class Game extends AppCompatActivity
 
         int plop =  tirage[rgenerator.nextInt(tirage.length)];
 
-        currentPiece = new Pieces(true, plop);
+        do {
+            currentPiece = new Pieces(true, plop);
+        } while (currentPiece.type == nextPiece.type);
 
     }
 
@@ -341,7 +354,6 @@ public class Game extends AppCompatActivity
 		});
 	}
 
-    //byte TEST;
 
 	/* ************************************************
 	 * Main time bucle
@@ -350,14 +362,44 @@ public class Game extends AppCompatActivity
 	private void gameAction(){
 		if (game){
 
-
-
 			unDraw();
 
 			//Try to move it down.
 			if (!currentPiece.moveDown()){
 
                 soundPool.play(soundDown, 1, 1, 1, 0, 1);
+
+                compteurPièce++;
+
+
+                if (currentPiece.type == 0) {
+                    piece0 = piece0 + 1;
+                }
+
+                if (currentPiece.type == 1) {
+                    piece1 = piece1 + 1;
+                }
+
+                if (currentPiece.type == 2) {
+                    piece2 = piece2 + 1;
+                }
+
+                if (currentPiece.type == 3) {
+                    piece3 = piece3 + 1;
+                }
+
+                if (currentPiece.type == 4) {
+                    piece4 = piece4 + 1;
+                }
+
+                if (currentPiece.type == 5) {
+                    piece5 = piece5 + 1;
+                }
+
+                if (currentPiece.type == 6) {
+                    piece6 = piece6 + 1;
+                }
+
 
 
 				//If couldnt move the piece down, the boxes occupied by it become ocuupied boxes
@@ -385,13 +427,117 @@ public class Game extends AppCompatActivity
 				currentPiece.start();
 
 
-                // controle que la nouvelle pièce n'est sortie plus de 2 fois sur 3
+
                 do {
+
                     nextPiece = new Pieces(false, 0);
 
-                } while (nextPiece.type == répétition0 && nextPiece.type == répétition1 || nextPiece.type == 4 && répétition0 == 4 || nextPiece.type == 5 && répétition0 == 5);
+                } while (nextPiece.type == répétition0 && nextPiece.type == répétition1
+                        || nextPiece.type == répétition1 && nextPiece.type == répétition2
+                        || nextPiece.type == répétition1
+                        || nextPiece.type == 4 && répétition0 == 4
+                        || nextPiece.type == 5 && répétition0 == 5);
 
 
+                if  (compteurPièce == 5) {
+
+                    if (piece0 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece0");
+                    }
+                    if (piece1 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece1");
+                    }
+                    if (piece2 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece2");
+                    }
+                    if (piece3 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece3");
+                    }
+                    if (piece4 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece4");
+                    }
+                    if (piece5 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece5");
+                    }
+                    if (piece6 >= 3) {
+                        nextPiece = new Pieces(false, 0);
+                        Log.d("Compteur pièce 5", "piece6");
+                    }
+                }
+
+
+                if (compteurPièce == 10) {
+
+                    if (piece0 == 0) {
+                        Log.d("Compteur pièce 10", "piece0");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 0);
+
+                    } else if (piece1 == 0) {
+                        Log.d("Compteur pièce 10", "piece1");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 1);
+
+                    } else if (piece2 == 0) {
+                        Log.d("Compteur pièce 10", "piece2");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 2);
+
+                    } else if (piece3 == 0) {
+                        Log.d("Compteur pièce 10", "piece3");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 3);
+
+                    } else if (piece4 == 0) {
+                        Log.d("Compteur pièce 10", "piece4");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 4);
+
+                    } else if (piece5 == 0) {
+                        Log.d("Compteur pièce 10", "piece5");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 5);
+
+                    } else if (piece6 == 0) {
+                        Log.d("Compteur pièce 10", "piece6");
+                        do {
+                            nextPiece = new Pieces(false, 0);
+
+                        } while (nextPiece.type != 6);
+                    }
+
+
+                    compteurPièce = -1;
+
+                    piece0 = 0;
+                    piece1 = 0;
+                    piece2 = 0;
+                    piece3 = 0;
+                    piece4 = 0;
+                    piece5 = 0;
+                    piece6 = 0;
+
+                }
+
+                répétition2 = répétition1;
                 répétition1 = répétition0;
                 répétition0 = nextPiece.type;
 
