@@ -8,7 +8,7 @@ import java.util.Random;
 class Pieces {
 
 	//The type of the piece, the shape.
-	public byte type;
+	public final byte type;
 	
 	//The color of the piece. It depends on the type
 	private final byte color;
@@ -381,12 +381,16 @@ class Pieces {
 						//Check availability
 						if (i == 18)
 							return false;
+
 						if (i == 19)
 							return false;
+
 						if (board[i + 2][j + 1])
 							return false;
+
 						if (board[i + 2][j + 2])
 							return false;
+
 						//Perform transformation
 						box[i + 2][j + 1] = true;
 						box[i + 2][j + 2] = true;
@@ -508,6 +512,7 @@ class Pieces {
 
                         if (i == 19)
 							return false;
+
 
                         // rustine:  java.lang.ArrayIndexOutOfBoundsException: length=20; index=20
                         try {
@@ -1069,8 +1074,13 @@ class Pieces {
 							return false;
 						if (i == 19)
 							return false;
-						if (board[i + i][j + 1])
-							return false;
+
+						// rustine
+						try {
+							if (board[i + i][j + 1])
+								return false;
+						} catch (Exception ignored) {}
+
 						if (board[i + 2][j + 1])
 							return false;
 						if (board[i + 2][j + 2])
