@@ -150,9 +150,7 @@ public class Game extends AppCompatActivity
 
         int plop =  tirage[rgenerator.nextInt(tirage.length)];
 
-        do {
-            currentPiece = new Pieces(true, plop);
-        } while (currentPiece.type == nextPiece.type);
+		currentPiece = new Pieces(true, plop);
 
     }
 
@@ -175,7 +173,6 @@ public class Game extends AppCompatActivity
 
 
 	private void board() {
-
 
 		//Get measures for the board
 		Point size = new Point();
