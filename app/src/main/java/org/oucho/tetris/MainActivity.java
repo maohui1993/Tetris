@@ -17,9 +17,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
-import org.oucho.tetris.update.AppUpdate;
-import org.oucho.tetris.update.Display;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
@@ -32,9 +29,6 @@ public class MainActivity extends AppCompatActivity
     private int soundClick;
 
     private SoundPool soundPool;
-
-    private static final String updateURL = "http://oucho.free.fr/app_android/Tetris/update_tetris.xml";
-
 
     private ImageView pièce0, pièce1, pièce2, pièce3, pièce4, pièce5, pièce6;
     private TranslateAnimation animation0, animation1, animation2, animation3, animation4, animation5, animation6;
@@ -103,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         soundIntro = MediaPlayer.create(this, R.raw.intro);
         soundIntro.start();
 
-        updateOnStart();
         animTetriminos();
     }
 
@@ -408,17 +401,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /* **********************************************************************************************
-    * Mise à jour
-    * *********************************************************************************************/
-
-    private void updateOnStart() {
-
-        new AppUpdate(this)
-                .setUpdateXML(updateURL)
-                .setDisplay(Display.SNACKBAR)
-                .start();
-    }
 
     /**************
      * About dialog

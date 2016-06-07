@@ -186,8 +186,8 @@
         android:id="@+id/linearLayoutButtons"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/dark_grey"
-        android:layout_weight=".6">
+        android:layout_weight=".6"
+        android:layout_marginBottom="30dp">
 
         <!-- I know that Nested weights are bad for performance, I know -->
 
